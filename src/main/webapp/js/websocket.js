@@ -3,14 +3,22 @@ var username = sessionStorage.getItem("username");
 var host = document.location.host;
 ws = new WebSocket("ws://" + host + "/game/" + username);
 
+ws.onopen = function(event){
+    var usersList = document.getElementById("usersList");
+    usersList.innerHTML = localStorage.getItem("connectedUsers");
+    var message = JSON.parse(event.data);
+    console.log(message);
+    usersList.innerHTML += message.from + message.content + "\n";
+    localStorage.setItem("connectedUsers", usersList.innerHTML);
+};
 
 ws.onmessage = function (event) {
-    var log = document.getElementById("log");
-    log.innerHTML = localStorage.getItem("myContent");
+    var log = document.getElementById("messagesList");
+    log.innerHTML = localStorage.getItem("messages");
     console.log(event.data);
     var message = JSON.parse(event.data);
     log.innerHTML += message.from + " : " + message.content + "\n";
-    localStorage.setItem("myContent", log.innerHTML);
+    localStorage.setItem("messages", log.innerHTML);
 };
 
 function clearContent() {
@@ -19,7 +27,7 @@ function clearContent() {
 }
 
 function send() {
-    var content = document.getElementById("msg").value;
+    var content = document.getElementById("messageInput").value;
     var json = JSON.stringify({
         "content": content
     });

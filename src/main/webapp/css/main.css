@@ -145,24 +145,82 @@ body{
 }
 
 .game_window{
-    border: 3px solid #6f3d2d;
+    box-shadow: 0 0 5px 2px rgba(122,122,122,0.5);
     border-radius: 10px;
 }
 
 .game_window .main_window{
     width: 650px;
-    height: 500px;
+    height: 550px;
     background: white;
+    border-radius: 10px 0 0 10px;
 }
 
 .users_field{
     width: 250px;
-    height: 500px;
+    height: 550px;
+    border-radius: 0 10px 10px 0;
+    position: relative;
+    border-left: 1px solid #6f3d2d;
 }
 
 .users_field .connected_users{
-    height: 150px;
+    height: 160px;
     background:#fee0c1;
+    position: relative;
+    top:0;
+    right: 0;
+    border-top-right-radius: 10px;
+}
+
+.connected_users textarea{
+    height: 140px;
+    width: 100%;
+    border-top-right-radius: 10px;
+    resize: none;
+    border: none;
+    background-color: #6f3d2d;
+    color: white;
+    font-size: 12px;
+    text-align: left !important;
+}
+
+.no-gray{
+    background-color:white;
+}
+
+.messages textarea{
+    width: 100%;
+    height: 350px;
+    resize: none;
+    border: none;
+    border-bottom: 1px solid #6f3d2d;
+}
+
+.btn-simple{
+    width: 35px;
+    height: 30px;
+    padding: 0 !important;
+    text-align: center;
+    font-size: 12px !important;
+    margin: 5px 5px 5px 5px;
+}
+
+.messages{
+    height: 390px;
+    width: 100%;
+}
+
+.message-input{
+    background-color: white;
+    border-bottom-right-radius: 10px;
+    margin-top: -6px;
+}
+
+.message-input input{
+    border: none !important;
+    width: 180px;
+    margin-left: 10px;
 }
 
 

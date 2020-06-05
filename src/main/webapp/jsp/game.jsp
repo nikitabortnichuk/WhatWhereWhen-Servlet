@@ -21,8 +21,8 @@
 
         </div>
         <div class="users_field">
-            <div class="connected_users">
-
+            <div class="connected_users" id="connected_users">
+                <span>Connected Experts:</span>
             </div>
             <div class="messages">
                 <textarea class="messagesList no-gray" readonly="readonly" rows="15" cols="15"></textarea>

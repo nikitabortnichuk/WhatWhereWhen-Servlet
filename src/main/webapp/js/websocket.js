@@ -1,29 +1,47 @@
 var ws;
 var username = sessionStorage.getItem("username");
 var host = document.location.host;
-ws = new WebSocket("ws://" + host + "/game/" + username);
+var game = document.documentURI.split("/")[5];
+ws = new WebSocket("ws://" + host + "/game/" + game);
 
-ws.onopen = function(event){
-    var usersList = document.getElementById("usersList");
-    usersList.innerHTML = localStorage.getItem("connectedUsers");
-    var message = JSON.parse(event.data);
-    console.log(message);
-    usersList.innerHTML += message.from + message.content + "\n";
-    localStorage.setItem("connectedUsers", usersList.innerHTML);
+ws.onopen = function(){
+    var userAction = {
+        action: "connect",
+        username: sessionStorage.getItem("username")
+    };
+    ws.send(JSON.stringify(userAction));
 };
 
 ws.onmessage = function (event) {
-    var log = document.getElementById("messagesList");
-    log.innerHTML = localStorage.getItem("messages");
-    console.log(event.data);
-    var message = JSON.parse(event.data);
-    log.innerHTML += message.from + " : " + message.content + "\n";
-    localStorage.setItem("messages", log.innerHTML);
+    var user = JSON.parse(event.data);
+    console.log(user);
+    if(user.action === "connect"){
+        printConnectedUser(user)
+    }
+    if(user.action === "disconnect"){
+        document.getElementById(user.username).remove();
+    }
 };
 
-function clearContent() {
-    document.getElementById("log").innerHTML = "";
-    localStorage.removeItem("myContent");
+window.onbeforeunload = function () {
+    var userAction = {
+        action: "disconnect",
+        username: sessionStorage.getItem("username")
+    };
+    ws.send(JSON.stringify(userAction));
+};
+
+function printConnectedUser(user) {
+    var connectedUsers = document.getElementById("connected_users");
+
+    var connectedUserDiv = document.createElement("div");
+    connectedUserDiv.setAttribute("id", user.username);
+    connectedUserDiv.setAttribute("class", "connected_user");
+    connectedUsers.appendChild(connectedUserDiv);
+
+    var username = document.createElement("span");
+    username.innerHTML = "• Expert: " + user.username;
+    connectedUserDiv.appendChild(username);
 }
 
 function send() {

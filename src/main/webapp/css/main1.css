@@ -185,6 +185,21 @@ body{
     text-align: left !important;
 }
 
+.connected_user{
+    padding: 10px;
+    width: 100%;
+    height: 20px;
+}
+
+.connected_user span{
+    color: #6F3D2D;
+}
+
+.connected_users span{
+    margin-left: 10px;
+    color: #6F3D2D;
+}
+
 .no-gray{
     background-color:white;
 }

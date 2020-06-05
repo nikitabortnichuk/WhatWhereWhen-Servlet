@@ -28,7 +28,6 @@ public class GameEndpoint {
 
     @OnOpen
     public void onOpen(Session session, @PathParam("game") String gameId){
-
         gameSessionHandler.addSession(session, gameId);
     }
 
@@ -39,18 +38,18 @@ public class GameEndpoint {
             JsonObject jsonMessage = reader.readObject();
 
             String gameId = jsonMessage.getString("gameId");
+            String username = jsonMessage.getString("username");
 
             if("connect".equals(jsonMessage.getString("action"))){
-                String username = jsonMessage.getString("username");
                 gameSessionHandler.addUser(username, gameId);
             }
             if("disconnect".equals(jsonMessage.getString("action"))){
-                String username = jsonMessage.getString("username");
                 gameSessionHandler.removeUser(username, gameId);
             }
+            if("send".equals(jsonMessage.getString("action"))){
+                gameSessionHandler.sendToAllConnectedSessions(jsonMessage, gameId);
+            }
         }
-
-
     }
 
     @OnClose

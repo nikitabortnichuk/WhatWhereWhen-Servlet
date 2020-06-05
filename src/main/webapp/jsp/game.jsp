@@ -25,9 +25,9 @@
                 <span>Connected Experts:</span>
             </div>
             <div class="messages">
-                <textarea class="messagesList no-gray" readonly="readonly" rows="15" cols="15"></textarea>
+                <textarea id="messageList" class="messageList no-gray" readonly="readonly" rows="15" cols="15"></textarea>
                 <div class="message-input">
-                    <input type="text" name="message" placeholder="Type message...">
+                    <input id="messageInput" type="text" name="message" placeholder="Type message...">
                     <button type="button" class="btn btn-simple btn-info" onclick="send()">Send</button>
                 </div>
             </div>

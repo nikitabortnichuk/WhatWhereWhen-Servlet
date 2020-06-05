@@ -10,8 +10,6 @@ ws.onopen = function(){
         gameId: window.game,
         username: window.username
     };
-    console.log(userAction);
-
     ws.send(JSON.stringify(userAction));
 };
 
@@ -19,10 +17,15 @@ ws.onmessage = function (event) {
     var user = JSON.parse(event.data);
     console.log(user);
     if(user.action === "connect"){
-        printConnectedUser(user)
+        printConnectedUser(user);
+        printMessage(user);
     }
     if(user.action === "disconnect"){
         document.getElementById(user.username).remove();
+        printMessage(user);
+    }
+    if(user.action === "send"){
+        printMessage(user);
     }
 };
 
@@ -32,9 +35,6 @@ window.onbeforeunload = function () {
         gameId: window.game,
         username: window.username
     };
-
-    console.log(userAction);
-
     ws.send(JSON.stringify(userAction));
 };
 
@@ -51,10 +51,23 @@ function printConnectedUser(user) {
     connectedUserDiv.appendChild(username);
 }
 
+function printMessage(user) {
+    var messageList = document.getElementById("messageList");
+
+    if(user.action !== "send"){
+        user.content = user.action;
+    }
+
+    messageList.innerHTML += user.username + ": " + user.content + "\n";
+}
+
 function send() {
     var content = document.getElementById("messageInput").value;
-    var json = JSON.stringify({
-        "content": content
-    });
-    ws.send(json);
+    var userAction = {
+        action: "send",
+        gameId: window.game,
+        username: window.username,
+        content: content
+    };
+    ws.send(JSON.stringify(userAction));
 }

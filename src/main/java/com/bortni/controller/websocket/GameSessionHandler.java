@@ -67,11 +67,13 @@ public class GameSessionHandler {
                 .build();
     }
 
-    private void sendToAllConnectedSessions(JsonObject connectMessage, String gameId) {
+    public void sendToAllConnectedSessions(JsonObject connectMessage, String gameId) {
         Set<Session> sessions = sessionMap.get(gameId);
-        for (Session session : sessions) {
-            sendToSession(session, connectMessage, gameId);
-        }
+        sessions.forEach(session -> {
+            synchronized (session){
+                sendToSession(session, connectMessage, gameId);
+            }
+        });
     }
 
     private void sendToSession(Session session, JsonObject connectMessage, String gameId) {

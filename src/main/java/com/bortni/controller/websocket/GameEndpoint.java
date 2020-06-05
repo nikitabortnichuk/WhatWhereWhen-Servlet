@@ -27,8 +27,9 @@ public class GameEndpoint {
     private static GameSessionHandler gameSessionHandler = new GameSessionHandler();
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("username") String username){
-        gameSessionHandler.addSession(session);
+    public void onOpen(Session session, @PathParam("game") String gameId){
+
+        gameSessionHandler.addSession(session, gameId);
     }
 
     @OnMessage
@@ -37,21 +38,24 @@ public class GameEndpoint {
         try(JsonReader reader = Json.createReader(new StringReader(message))){
             JsonObject jsonMessage = reader.readObject();
 
+            String gameId = jsonMessage.getString("gameId");
+
             if("connect".equals(jsonMessage.getString("action"))){
                 String username = jsonMessage.getString("username");
-                gameSessionHandler.addUser(username);
+                gameSessionHandler.addUser(username, gameId);
             }
             if("disconnect".equals(jsonMessage.getString("action"))){
-                System.out.println("disconnect");
                 String username = jsonMessage.getString("username");
-                gameSessionHandler.removeUser(username);
+                gameSessionHandler.removeUser(username, gameId);
             }
         }
+
+
     }
 
     @OnClose
-    public void onClose(Session session, @PathParam("username") String username) throws IOException, EncodeException {
-        gameSessionHandler.removeSession(session);
+    public void onClose(Session session, @PathParam("gameId") String gameId) throws IOException, EncodeException {
+        gameSessionHandler.removeSession(session, gameId);
     }
 
     @OnError

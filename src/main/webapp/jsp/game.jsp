@@ -44,6 +44,6 @@
 <script type="text/javascript">
     sessionStorage.setItem("username", "${sessionScope.username}");
 </script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/websocket.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/websocket1.js"></script>
 
 </html>

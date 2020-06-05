@@ -7,8 +7,11 @@ ws = new WebSocket("ws://" + host + "/game/" + game);
 ws.onopen = function(){
     var userAction = {
         action: "connect",
-        username: sessionStorage.getItem("username")
+        gameId: window.game,
+        username: window.username
     };
+    console.log(userAction);
+
     ws.send(JSON.stringify(userAction));
 };
 
@@ -26,8 +29,12 @@ ws.onmessage = function (event) {
 window.onbeforeunload = function () {
     var userAction = {
         action: "disconnect",
-        username: sessionStorage.getItem("username")
+        gameId: window.game,
+        username: window.username
     };
+
+    console.log(userAction);
+
     ws.send(JSON.stringify(userAction));
 };
 

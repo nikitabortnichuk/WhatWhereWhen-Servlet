@@ -27,7 +27,7 @@ public class FindGameCommand implements Command {
 
         try {
             Game game = gameService.findByIdent(identificator);
-            request.setAttribute("game", game);
+            request.getSession().setAttribute("game", game);
             request.getSession().setAttribute("username", username);
             response.sendRedirect("/game-www/game/" + game.getGameIdentification());
         }

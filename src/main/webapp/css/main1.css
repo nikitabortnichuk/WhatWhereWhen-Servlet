@@ -238,7 +238,21 @@ body{
     margin-left: 10px;
 }
 
+.messageList{
+    padding: 10px;
+}
 
+.startMessage {
+    color: #1b90a9;
+}
+
+.main-message{
+    text-align: center;
+}
+
+.question{
+    text-align: center;
+}
 
 /* FOOTER */
 

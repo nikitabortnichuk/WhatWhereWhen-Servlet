@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page isELIgnored="false" %>
 
-
 <!DOCTYPE html>
 <html lang="${locale}">
 <head>
@@ -18,7 +17,14 @@
 <div class="content d-flex mb-5">
     <div class="game_window m-auto d-flex">
         <div class="main_window">
-
+            <div id="main-message-question" class="main-message question-wrap">
+                <h1 id="start-message"></h1>
+                <div id="question" class="question">
+                    <p class="question-text" id="question-text"></p>
+                </div>
+            </div>
+            <div class="round-timer"></div>
+            <div class="answer-is-correct"></div>
         </div>
         <div class="users_field">
             <div class="connected_users" id="connected_users">
@@ -43,6 +49,7 @@
 
 <script type="text/javascript">
     sessionStorage.setItem("username", "${sessionScope.username}");
+    sessionStorage.setItem("roundTime", "${sessionScope.game.configuration.roundTime}");
 </script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/websocket1.js"></script>
 

@@ -42,7 +42,7 @@ public class Servlet extends HttpServlet {
         commands.put(UrlPath.ADMIN_DELETE_QUESTION, new AdminDeleteQuestionCommand(questionService));
         commands.put(UrlPath.ADMIN_UPDATE_PAGE_QUESTION, new AdminUpdatePageQuestionCommand(questionService));
         commands.put(UrlPath.ADMIN_UPDATE_QUESTION, new AdminSaveQuestionCommand(questionService, variantService));
-        commands.put(UrlPath.CREATE_GAME, new CreateGameCommand(gameService));
+        commands.put(UrlPath.CREATE_GAME, new CreateGameCommand(gameService, questionService));
         commands.put(UrlPath.FIND_GAME, new FindGameCommand(gameService));
     }
 

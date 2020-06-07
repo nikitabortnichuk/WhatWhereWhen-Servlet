@@ -6,19 +6,25 @@ import com.bortni.controller.util.Routes;
 import com.bortni.controller.util.UrlPath;
 import com.bortni.model.entity.Configuration;
 import com.bortni.model.entity.Game;
+import com.bortni.model.entity.question.Question;
 import com.bortni.service.GameService;
+import com.bortni.service.QuestionService;
 
+import javax.json.JsonObject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 public class CreateGameCommand implements Command {
 
     GameService gameService;
+    QuestionService questionService;
 
-    public CreateGameCommand(GameService gameService) {
+    public CreateGameCommand(GameService gameService, QuestionService questionService) {
         this.gameService = gameService;
+        this.questionService = questionService;
     }
 
     @Override
@@ -28,13 +34,11 @@ public class CreateGameCommand implements Command {
         gameService.save(game);
 
         String username = request.getParameter("username");
-
-        request.setAttribute("game", game);
+        request.getSession().setAttribute("game", game);
         request.getSession().setAttribute("username", username);
 
         response.sendRedirect("/game-www/game/" + game.getGameIdentification());
     }
-
 
     private Game getGameByRequest(HttpServletRequest request){
         int playersNumber = Integer.parseInt(request.getParameter("players_number"));
@@ -56,5 +60,7 @@ public class CreateGameCommand implements Command {
                 )
                 .build();
     }
+
+
 
 }

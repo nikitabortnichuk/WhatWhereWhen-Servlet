@@ -27,12 +27,14 @@ public class FindGameCommand implements Command {
 
         try {
             Game game = gameService.findByIdent(identificator);
+            if(!game.isAvailable()){
+                throw new RuntimeException();
+            }
             request.getSession().setAttribute("game", game);
             request.getSession().setAttribute("username", username);
             response.sendRedirect("/game-www/game/" + game.getGameIdentification());
         }
         catch (RuntimeException e){
-            e.printStackTrace();
             response.sendError(404);
         }
     }

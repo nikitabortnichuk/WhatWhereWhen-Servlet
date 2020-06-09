@@ -16,25 +16,35 @@
 
 <div class="content d-flex mb-5">
     <div class="game_window m-auto d-flex">
-        <div class="main_window">
-            <div id="main-message-question" class="main-message question-wrap">
+        <div class="main_window" id="main-window">
+            <div id="main-message-question" class="main-message">
                 <h1 id="start-message"></h1>
-                <div id="question" class="question">
-                    <p class="question-text" id="question-text"></p>
+                <div id="question-wrap" class="question-wrap d-flex">
+                    <div id="question" class="question">
+                        <h2 class="question-number" id="question-number"></h2>
+                        <p class="question-text" id="question-text"></p>
+                        <div class="variantList d-flex justify-content-between" id="variantList"></div>
+                    </div>
                 </div>
             </div>
-            <div class="round-timer"></div>
-            <div class="answer-is-correct"></div>
+            <div id="round-timer" class="round-timer">
+                <p class="timer-text" id="timer-text"></p>
+                <p class="timer-seconds" id="timer-seconds"></p>
+            </div>
+            <div class="answer-is-correct text-center" id="answer-is-correct">
+                <p class="is-correct-message" id="is-correct-message"></p>
+            </div>
         </div>
         <div class="users_field">
             <div class="connected_users" id="connected_users">
                 <span>Connected Experts:</span>
             </div>
             <div class="messages">
-                <textarea id="messageList" class="messageList no-gray" readonly="readonly" rows="15" cols="15"></textarea>
+                <textarea id="messageList" class="messageList no-gray" readonly="readonly" rows="15"
+                          cols="15"></textarea>
                 <div class="message-input">
                     <input id="messageInput" type="text" name="message" placeholder="Type message...">
-                    <button type="button" class="btn btn-simple btn-info" onclick="send()">Send</button>
+                    <button type="button" class="btn btn-simple btn-info" onclick="sendMessage()">Send</button>
                 </div>
             </div>
         </div>
@@ -51,6 +61,6 @@
     sessionStorage.setItem("username", "${sessionScope.username}");
     sessionStorage.setItem("roundTime", "${sessionScope.game.configuration.roundTime}");
 </script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/websocket1.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/websocket.js"></script>
 
 </html>

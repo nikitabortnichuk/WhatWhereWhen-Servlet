@@ -30,18 +30,24 @@ public class CreateGameCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        Game game = getGameByRequest(request);
-        gameService.save(game);
+        try {
+            Game game = getGameByRequest(request);
+            gameService.save(game);
+            String username = request.getParameter("username");
+            request.getSession().setAttribute("game", game);
+            request.getSession().setAttribute("username", username);
+            response.sendRedirect("/game-www/game/" + game.getGameIdentification());
 
-        String username = request.getParameter("username");
-        request.getSession().setAttribute("game", game);
-        request.getSession().setAttribute("username", username);
-
-        response.sendRedirect("/game-www/game/" + game.getGameIdentification());
+        } catch (RuntimeException e){
+            response.sendRedirect("/?errorMessage=" + e.getMessage());
+        }
     }
 
     private Game getGameByRequest(HttpServletRequest request){
         int playersNumber = Integer.parseInt(request.getParameter("players_number"));
+
+        gameService.checkIfLessThanTwoOrThrowException(playersNumber);
+
         int roundsNumber = Integer.parseInt(request.getParameter("rounds_number"));
         int roundTime = Integer.parseInt(request.getParameter("round_time"));
 
@@ -58,6 +64,7 @@ public class CreateGameCommand implements Command {
                                 .roundTime(roundTime)
                                 .build()
                 )
+                .isAvailable(true)
                 .build();
     }
 

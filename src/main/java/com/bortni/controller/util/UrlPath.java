@@ -11,5 +11,8 @@ public class UrlPath {
     public static final String ADMIN_UPDATE_QUESTION = ADMIN + "/edit_question";
     public static final String CREATE_GAME = "/create-game";
     public static final String FIND_GAME = "/find-game";
-    public static final String GAME = "/game/{ident}";
+    public static final String GAME = "/game/*";
+    public static final String SIGN_IN = "/sign_in";
+    public static final String SIGN_UP = "/sign_up";
+    public static final String USER_PROFILE = "/profile";
 }

@@ -29,6 +29,7 @@ public class GameDatabaseMapper implements DatabaseMapper<Game> {
                                 .averageScorePerRound(resultSet.getShort(10))
                                 .build()
                 )
+                .isAvailable(resultSet.getBoolean(11))
                 .build();
     }
 }

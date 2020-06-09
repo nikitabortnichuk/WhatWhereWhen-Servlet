@@ -13,11 +13,12 @@ public class Game {
     private Statistics statistics;
     private Configuration configuration;
     private List<Question> questionList;
+    private boolean isAvailable;
 
     public Game() {
     }
 
-    public Game(int id, String gameIdentification, String password, List<User> userList, Statistics statistics, Configuration configuration, List<Question> questionList) {
+    public Game(int id, String gameIdentification, String password, List<User> userList, Statistics statistics, Configuration configuration, List<Question> questionList, boolean isAvailable) {
         this.id = id;
         this.gameIdentification = gameIdentification;
         this.password = password;
@@ -25,6 +26,7 @@ public class Game {
         this.statistics = statistics;
         this.configuration = configuration;
         this.questionList = questionList;
+        this.isAvailable = isAvailable;
     }
 
     public static GameBuilder builder() {
@@ -87,6 +89,14 @@ public class Game {
         this.password = password;
     }
 
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
     @Override
     public String toString() {
         return "Game{" +
@@ -97,6 +107,7 @@ public class Game {
                 ", statistics=" + statistics +
                 ", configuration=" + configuration +
                 ", questionList=" + questionList +
+                ", isAvailable=" + isAvailable +
                 '}';
     }
 
@@ -108,6 +119,7 @@ public class Game {
         private Statistics statistics;
         private Configuration configuration;
         private List<Question> questionList;
+        private boolean isAvailable;
 
         GameBuilder() {
         }
@@ -147,8 +159,13 @@ public class Game {
             return this;
         }
 
+        public GameBuilder isAvailable(boolean isAvailable){
+            this.isAvailable = isAvailable;
+            return this;
+        }
+
         public Game build() {
-            return new Game(id, gameIdentification, password, userList, statistics, configuration, questionList);
+            return new Game(id, gameIdentification, password, userList, statistics, configuration, questionList, isAvailable);
         }
     }
 }

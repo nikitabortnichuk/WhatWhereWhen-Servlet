@@ -37,7 +37,8 @@ public class QuestionService {
              VariantDao variantDao = daoFactory.createVariantDao()) {
 
             List<Question> questionList = questionsDao.findAll();
-            entityMapper.setVariantsAndAnswerToQuestionListWithVariants(variantDao, questionList);
+            questionList.forEach(question ->
+                    entityMapper.setVariantsAndAnswerToOneQuestionWithVariants(variantDao, question));
 
             return questionList;
         }

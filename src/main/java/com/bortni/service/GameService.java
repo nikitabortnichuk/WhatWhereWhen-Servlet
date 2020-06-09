@@ -19,4 +19,16 @@ public class GameService {
             return gameDao.findByIdentificator(identificator);
         }
     }
+
+    public void update(Game game){
+        try (GameDao gameDao = daoFactory.createGameDao()){
+            gameDao.update(game);
+        }
+    }
+
+    public void checkIfLessThanTwoOrThrowException(int playersNumber) {
+        if(playersNumber < 2){
+            throw new RuntimeException("Number of players must not be less than 2");
+        }
+    }
 }

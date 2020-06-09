@@ -28,6 +28,16 @@
     <url-pattern>/game-www/game/*</url-pattern>
   </servlet-mapping>
 
+  <filter>
+    <filter-name>SecurityFilter</filter-name>
+    <filter-class>com.bortni.controller.filter.SecurityFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>SecurityFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
 
   <jsp-config>
     <jsp-property-group>

@@ -1,10 +1,6 @@
 package com.bortni.controller.websocket;
 
-
-import com.bortni.model.entity.Game;
-import com.bortni.model.entity.question.Question;
 import com.bortni.service.GameService;
-import com.bortni.service.QuestionService;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -19,7 +15,6 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.List;
 
 @ServerEndpoint(value = "/game/{game}")
 public class GameEndpoint {
@@ -28,50 +23,42 @@ public class GameEndpoint {
     private static GameService gameService = new GameService();
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("game") String gameId){
+    public void onOpen(Session session, @PathParam("game") String gameId) {
 
         gameSessionHandler.addSession(session, gameId);
-        initGame(gameId);
+        gameSessionHandler.initGame(gameId);
     }
 
 
     @OnMessage
     public void onMessage(String message, Session session) throws IOException, EncodeException {
 
-        try(JsonReader reader = Json.createReader(new StringReader(message))){
+        try (JsonReader reader = Json.createReader(new StringReader(message))) {
             JsonObject jsonMessage = reader.readObject();
             processAction(session, jsonMessage);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
 
     private void processAction(Session session, JsonObject jsonMessage) {
-        System.out.println(jsonMessage);
-        String gameId = jsonMessage.getString("gameId");
-        String username = jsonMessage.getString("username");
-        switch (jsonMessage.getString("action")){
+        switch (jsonMessage.getString("action")) {
             case "connect":
-                gameSessionHandler.addUser(username, gameId);
+                gameSessionHandler.addUser(jsonMessage);
                 break;
             case "disconnect":
-                gameSessionHandler.processDisconnect(session, username, gameId);
+                gameSessionHandler.processDisconnect(session, jsonMessage);
                 break;
             case "send":
-                gameSessionHandler.sendToAllConnectedSessions(jsonMessage, gameId);
+                gameSessionHandler.sendToAllConnectedSessions(jsonMessage);
                 break;
-            case "start":
-                gameSessionHandler.sendQuestion(jsonMessage, gameId);
+            case "ask":
+                gameSessionHandler.processQuestion(jsonMessage);
                 break;
-        }
-    }
-
-    private void initGame(String gameId) {
-        Game game = gameService.findByIdent(gameId);
-        int playersNumber = game.getConfiguration().getPlayersNumber();
-        int actualPlayersNumber = gameSessionHandler.getSessions(gameId).size();
-        if(playersNumber == actualPlayersNumber){
-            int questionsNumber = gameSessionHandler.addToQuestionMapIfNotNull(gameId);
-            gameSessionHandler.sendStartMessage(gameId, questionsNumber);
+            case "answer":
+                gameSessionHandler.processAnswer(jsonMessage);
+                break;
         }
     }
 
@@ -85,7 +72,7 @@ public class GameEndpoint {
         // Do error handling here
     }
 
-    private void init(){
+    private void init() {
 
     }
 

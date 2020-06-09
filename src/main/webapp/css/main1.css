@@ -3,23 +3,23 @@ a {
     text-decoration: none !important;
 }
 
-html{
+html {
     height: 100%;
 }
 
-body{
+body {
     height: 100%;
     background-color: #fee0c1 !important;
 }
 
 /* HEADER */
 
-.logo{
+.logo {
     width: 50px;
     height: 50px;
 }
 
-.arrow{
+.arrow {
     width: 10px;
 }
 
@@ -30,7 +30,7 @@ body{
 .dropdown_language {
     position: relative;
     display: inline-block;
-    font-size:14px;
+    font-size: 14px;
 }
 
 .dropdown-content {
@@ -45,34 +45,34 @@ body{
 
 /* CONTENT */
 
-.content{
+.content {
     height: 50%;
 }
 
-.content .slogan, .buttons{
+.content .slogan, .buttons {
     text-align: center;
 }
 
-.slogan{
+.slogan {
     margin-bottom: 50px;
 }
 
-.button_home h2{
+.button_home h2 {
     border: #6f3d2d 5px solid;
     margin: 10px;
     padding: 5px;
 }
 
-.button_home h2:hover{
+.button_home h2:hover {
     color: #fee0c1;
     background: #6f3d2d;
 }
 
-.content h1, h2{
+.content h1, h2 {
     color: #6f3d2d;
 }
 
-#create_game, #find_game{
+#create_game, #find_game {
     display: none;
     position: absolute;
     top: 0;
@@ -81,7 +81,7 @@ body{
     height: 100%;
 }
 
-.game_create{
+.game_create {
     width: 400px;
     height: 350px;
     text-align: center;
@@ -98,38 +98,39 @@ body{
     left: 0;
     margin: auto;
 }
-#create_game:target, #find_game:target{
+
+#create_game:target, #find_game:target {
     display: block;
 }
 
-.close{
+.close {
     width: 10px;
     height: 10px;
     display: inline-block;
     cursor: pointer;
 }
 
-.create_game_form .game_inputs input{
+.create_game_form .game_inputs input {
     width: 200px;
     height: 30px;
     font-size: 14px;
 }
 
-.create_game_name{
+.create_game_name {
     margin-bottom: 15px;
 }
 
-.game_inputs input, .game_inputs .password{
+.game_inputs input, .game_inputs .password {
     margin-bottom: 15px;
 }
 
-.game_labels label{
+.game_labels label {
     display: block;
     text-align: left;
     margin-bottom: 22px;
 }
 
-.create_button{
+.create_button {
     position: absolute;
     bottom: 15px;
     left: 0;
@@ -137,26 +138,27 @@ body{
     margin: auto;
 }
 
-.create_game_form .close{
+.create_game_form .close {
     position: absolute;
     top: 5px;
     right: 5px;
     margin: auto;
 }
 
-.game_window{
-    box-shadow: 0 0 5px 2px rgba(122,122,122,0.5);
+.game_window {
+    box-shadow: 0 0 5px 2px rgba(122, 122, 122, 0.5);
     border-radius: 10px;
 }
 
-.game_window .main_window{
+.game_window .main_window {
     width: 650px;
     height: 550px;
     background: white;
     border-radius: 10px 0 0 10px;
+    padding: 15px;
 }
 
-.users_field{
+.users_field {
     width: 250px;
     height: 550px;
     border-radius: 0 10px 10px 0;
@@ -164,16 +166,16 @@ body{
     border-left: 1px solid #6f3d2d;
 }
 
-.users_field .connected_users{
+.users_field .connected_users {
     height: 160px;
-    background:#fee0c1;
+    background: #fee0c1;
     position: relative;
-    top:0;
+    top: 0;
     right: 0;
     border-top-right-radius: 10px;
 }
 
-.connected_users textarea{
+.connected_users textarea {
     height: 140px;
     width: 100%;
     border-top-right-radius: 10px;
@@ -185,26 +187,26 @@ body{
     text-align: left !important;
 }
 
-.connected_user{
+.connected_user {
     padding: 10px;
     width: 100%;
     height: 20px;
 }
 
-.connected_user span{
+.connected_user span {
     color: #6F3D2D;
 }
 
-.connected_users span{
+.connected_users span {
     margin-left: 10px;
     color: #6F3D2D;
 }
 
-.no-gray{
-    background-color:white;
+.no-gray {
+    background-color: white;
 }
 
-.messages textarea{
+.messages textarea {
     width: 100%;
     height: 350px;
     resize: none;
@@ -212,7 +214,7 @@ body{
     border-bottom: 1px solid #6f3d2d;
 }
 
-.btn-simple{
+.btn-simple {
     width: 35px;
     height: 30px;
     padding: 0 !important;
@@ -221,62 +223,82 @@ body{
     margin: 5px 5px 5px 5px;
 }
 
-.messages{
+.messages {
     height: 390px;
     width: 100%;
 }
 
-.message-input{
+.message-input {
     background-color: white;
     border-bottom-right-radius: 10px;
     margin-top: -6px;
 }
 
-.message-input input{
+.message-input input {
     border: none !important;
-    width: 180px;
+    width: 150px;
     margin-left: 10px;
 }
 
-.messageList{
+.messageList {
     padding: 10px;
 }
 
-.startMessage {
-    color: #1b90a9;
-}
-
-.main-message{
+.main-message {
     text-align: center;
 }
 
-.question{
+.question-wrap {
+    height: 200px;
+    width: 500px;
+    margin: 40px auto;
+    border-radius: 10px;
+    display: flex;
+}
+
+.question {
+    height: 100%;
+    width: 100%;
     text-align: center;
+    border-radius: 10px;
+}
+
+.question-number, .question-text{
+    color: #6f3d2d;
+}
+
+.question-text {
+    font-size: 18px;
+}
+
+.variantList {
+    width: 60%;
 }
 
 /* FOOTER */
 
-.my_footer .social_icon img{
+.my_footer .social_icon img {
     width: 25px;
 }
 
-.social_icon{
+.social_icon {
     margin: 10px 5px;
 }
 
-.social_info{
+.social_info {
     width: 150px;
     margin-left: auto;
     margin-right: 50px;
 }
 
-.my_footer{
+.my_footer {
     position: fixed; /* Фиксированное положение */
-    right: 0; bottom: 0; /* Левый нижний угол */
+    right: 0;
+    bottom: 0; /* Левый нижний угол */
     width: 100%;
 }
 
-.my_footer .copyright{
+.my_footer .copyright {
     background: #6f3d2d; /* Цвет фона */
     color: #fee0c1; /* Цвет текста */
     width: 100%; /* Ширина слоя */
@@ -287,11 +309,11 @@ body{
 
 /* ADMIN PAGE */
 
-.admin_page{
+.admin_page {
     height: 100%;
 }
 
-.admin_left_menu{
+.admin_left_menu {
     height: 100%;
     width: 20%;
     background: #218DA6;
@@ -299,26 +321,26 @@ body{
     overflow: auto;
 }
 
-.library_admin_text p{
+.library_admin_text p {
     color: white;
     font-size: 30px;
-    margin:30px auto;
+    margin: 30px auto;
 }
 
-.admin_menu_button p{
-    border:2px solid white;
+.admin_menu_button p {
+    border: 2px solid white;
     border-radius: 25px;
     margin: 30px 30px;
-    padding:5px 0;
+    padding: 5px 0;
     color: white;
     text-align: center;
 }
 
-.admin_menu_button p:hover{
+.admin_menu_button p:hover {
     background: #52BAD2;
 }
 
-.admin_right{
+.admin_right {
     position: absolute;
     margin-left: 23%;
     width: 72%;
@@ -327,60 +349,60 @@ body{
 .admin_welcome_text p {
     color: #218DA6;
     font-size: 40px;
-    margin:20px auto 0 0;
+    margin: 20px auto 0 0;
 }
 
-.margin_block{
+.margin_block {
     margin-bottom: 30px;
 }
 
-.table_question_list{
+.table_question_list {
     width: 100%;
 }
 
-.table_question_list table{
+.table_question_list table {
     width: 100%;
 }
 
-.table_question_list table{
+.table_question_list table {
     border-color: #218DA6;
 }
 
-.table_question_list thead{
+.table_question_list thead {
     color: white;
 }
 
-.table_question_list .table-primary thead{
+.table_question_list .table-primary thead {
     background-color: #218DA6;
 }
 
-.table_question_list .table-primary tbody{
+.table_question_list .table-primary tbody {
     background-color: white;
     color: #218DA6;
 }
 
-.admin_title_content{
+.admin_title_content {
     color: #218DA6;
     font-size: 30px;
 }
 
-.admin_line{
+.admin_line {
     width: 100%;
     height: 2px;
     background: #218DA6;
 }
 
-.my_form_item p{
+.my_form_item p {
     margin: 5px 0 5px 0;
     font-size: 18px;
     color: #218DA6;
 }
 
-.admin_edit_delete_book{
+.admin_edit_delete_book {
     text-decoration: underline !important;
 }
 
-.table_question_list p{
+.table_question_list p {
     color: #218DA6;
 }
 
@@ -393,30 +415,34 @@ body{
     font-size: 1em;
     font-family: serif;
 }
+
 .link_button:focus {
     outline: none;
 }
+
 .link_button:active {
     color: #fee0c1;
 }
 
-.add_button{
+.add_button {
     color: #218DA6;
     font-size: 20px;
 }
-.variants{
-    display: none;
-}
-.answer{
+
+.variants {
     display: none;
 }
 
-.variantTexts label{
+.answer {
+    display: none;
+}
+
+.variantTexts label {
     color: #218DA6;
     font-size: 18px;
 }
 
-.variant_is_right label{
+.variant_is_right label {
     margin-bottom: 15px;
     color: #218DA6;
     font-size: 18px;

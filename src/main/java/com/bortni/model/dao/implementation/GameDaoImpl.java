@@ -6,6 +6,7 @@ import com.bortni.model.entity.Configuration;
 import com.bortni.model.entity.Game;
 import com.bortni.model.entity.Statistics;
 import com.bortni.model.database_mapper.GameDatabaseMapper;
+import com.bortni.model.entity.User;
 import com.bortni.model.sql_query.GameSqlQuery;
 
 import java.sql.Connection;
@@ -40,6 +41,7 @@ public class GameDaoImpl implements GameDao {
             preparedStatement.setInt(2, configuration.getRoundTime());
             preparedStatement.setInt(3, configuration.getPlayersNumber());
             preparedStatement.setInt(4, configuration.getRoundsNumber());
+            preparedStatement.setBoolean(5, entity.isAvailable());
 
             preparedStatement.executeUpdate();
 
@@ -63,12 +65,13 @@ public class GameDaoImpl implements GameDao {
             preparedStatement.setInt(3, statistics.getNumberOfUsedHints());
             preparedStatement.setInt(4, statistics.getAverageTimePerRound());
             preparedStatement.setInt(5, statistics.getAverageScorePerRound());
-            preparedStatement.setInt(6, entity.getId());
+            preparedStatement.setBoolean(6, entity.isAvailable());
+            preparedStatement.setInt(7, entity.getId());
 
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            //log
+            e.printStackTrace();
             throw new RuntimeException();
         }
     }
@@ -127,6 +130,11 @@ public class GameDaoImpl implements GameDao {
         }
 
         return game;
+    }
+
+    @Override
+    public void saveUsersInGame(String identificator, List<User> userList) {
+
     }
 
     @Override

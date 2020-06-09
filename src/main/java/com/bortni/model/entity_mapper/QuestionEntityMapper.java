@@ -11,13 +11,6 @@ import java.util.List;
 
 public class QuestionEntityMapper implements EntityMapper {
 
-    public void setVariantsAndAnswerToQuestionListWithVariants(VariantDao variantDao, List<Question> questionList) {
-        questionList.stream()
-                .filter(this::isWithVariants)
-                .peek(question -> question.setVariantList(variantDao.findVariantsByQuestionId(question)))
-                .forEach(question -> question.setAnswer(findAnswer(question)));
-    }
-
     public void setVariantsAndAnswerToOneQuestionWithVariants(VariantDao variantDao, Question question){
         if (isWithVariants(question)) {
             question.setVariantList(variantDao.findVariantsByQuestionId(question));

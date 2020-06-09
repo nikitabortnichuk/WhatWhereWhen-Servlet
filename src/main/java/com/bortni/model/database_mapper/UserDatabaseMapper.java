@@ -11,7 +11,7 @@ public class UserDatabaseMapper implements DatabaseMapper<User> {
     public User getFromResultSet(ResultSet resultSet) throws SQLException {
         return User.builder()
                 .id(resultSet.getInt(1))
-                .nickname(resultSet.getString(2))
+                .username(resultSet.getString(2))
                 .email(resultSet.getString(3))
                 .password(resultSet.getString(4))
                 .build();

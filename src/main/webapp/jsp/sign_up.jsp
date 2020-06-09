@@ -1,16 +1,45 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: nikita.bortnichuk
-  Date: 06.04.2020
-  Time: 17:38
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page isELIgnored="false" %>
 
+<fmt:setLocale value="${locale}"/>
+<fmt:setBundle basename="${bundle}"/>
+
+<!DOCTYPE html>
+<html lang="${locale}">
+<head>
+    <jsp:include page="parts/head_tag.jsp"/>
+</head>
+<body style="background: #FFEFD5; background-size: cover; ">
+<div class="">
+    <div class="sign-up col-lg-4" style="color: #8C4637; margin:100px auto auto auto">
+        <h3 class="mb-3">REGISTRATION</h3>
+        <p style="color: red; font-size: 14px; margin: 20px auto">
+            ${requestScope.SignUpFailedMessage}
+        </p>
+        <form class="sign_form" action="${pageContext.request.contextPath}/game-www/sign_up" method="post">
+            <div class="form-group">
+                <label for="last-name">Username</label>
+                <input type="text" class="form-control" id="last-name"
+                       placeholder="Enter username" name="last_name"
+                       required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email"
+                       placeholder="Enter email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password"
+                       placeholder="Enter password" name="password"
+                       required>
+            </div>
+            <button type="submit" class="button">Sign Up</button>
+        </form>
+
+    </div>
+</div>
 </body>
 </html>

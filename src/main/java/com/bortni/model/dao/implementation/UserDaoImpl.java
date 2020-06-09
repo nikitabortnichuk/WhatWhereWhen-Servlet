@@ -8,6 +8,7 @@ import com.bortni.model.sql_query.UserSqlQuery;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class UserDaoImpl implements UserDao {
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
 
-            preparedStatement.setString(1, entity.getNickname());
+            preparedStatement.setString(1, entity.getUsername());
             preparedStatement.setString(2, entity.getEmail());
             preparedStatement.setString(3, entity.getPassword());
 
@@ -48,7 +49,7 @@ public class UserDaoImpl implements UserDao {
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
 
-            preparedStatement.setString(1, entity.getNickname());
+            preparedStatement.setString(1, entity.getUsername());
             preparedStatement.setString(2, entity.getEmail());
             preparedStatement.setString(3, entity.getPassword());
             preparedStatement.setInt(4, entity.getId());
@@ -90,6 +91,49 @@ public class UserDaoImpl implements UserDao {
         String sql = UserSqlQuery.FIND_BY_ID;
 
         return findById(specification, sql, id);
+    }
+
+    @Override
+    public User findByUsernameAndPassword(String username, String password) {
+        String sql = UserSqlQuery.FIND_BY_USERNAME_PASSWORD;
+
+        User user;
+        try(PreparedStatement preparedStatement = specification.getConnection().prepareStatement(sql)){
+
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+
+            final ResultSet resultSet = preparedStatement.executeQuery();
+
+            if(resultSet.next()) {
+                user = new UserDatabaseMapper().getFromResultSet(resultSet);
+            }
+            else {
+                user = new User();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+
+        return user;
+    }
+
+    @Override
+    public boolean isUsernameExist(String username) {
+        String sql = UserSqlQuery.FIND_BY_USERNAME;
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setString(1, username);
+            final ResultSet resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
     }
 
     @Override

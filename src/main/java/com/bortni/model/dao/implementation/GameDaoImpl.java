@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameDaoImpl implements GameDao {
@@ -134,6 +135,28 @@ public class GameDaoImpl implements GameDao {
 
     @Override
     public void saveUsersInGame(String identificator, List<User> userList) {
+
+    }
+
+    @Override
+    public List<Game> findByUserId(int id) {
+        String sql = GameSqlQuery.FIND_BY_USER_ID;
+
+        List<Game> gameList = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+
+            preparedStatement.setInt(1, id);
+            final ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                gameList.add(new GameDatabaseMapper().getFromResultSet(resultSet));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+        return gameList;
 
     }
 

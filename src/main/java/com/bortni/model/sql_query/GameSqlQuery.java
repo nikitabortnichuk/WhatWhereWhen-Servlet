@@ -19,4 +19,8 @@ public class GameSqlQuery {
 
     public static final String DELETE = "DELETE FROM games WHERE games.game_id = ? ";
 
+    public static final String FIND_BY_USER_ID = "SELECT * FROM users_games " +
+            "JOIN users ON users_games.game_id = users.user_id " +
+            "JOIN games ON users_games.game_id = games.game_id " +
+            "AND users.user_id = ?";
 }

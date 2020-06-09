@@ -15,5 +15,4 @@ public class AdminService {
         }
         return admin;
     }
-
 }

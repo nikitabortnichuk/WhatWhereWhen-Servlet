@@ -4,6 +4,9 @@ import com.bortni.model.dao.DaoFactory;
 import com.bortni.model.dao.GameDao;
 import com.bortni.model.entity.Game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameService {
 
     DaoFactory daoFactory = DaoFactory.getInstance();
@@ -30,5 +33,14 @@ public class GameService {
         if(playersNumber < 2){
             throw new RuntimeException("Number of players must not be less than 2");
         }
+    }
+
+    public List<Game> findByUserId(int id) {
+
+        List<Game> gameList;
+        try(GameDao gameDao = daoFactory.createGameDao()){
+            gameList = gameDao.findByUserId(id);
+        }
+        return gameList;
     }
 }

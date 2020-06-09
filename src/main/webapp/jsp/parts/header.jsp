@@ -24,11 +24,11 @@
         </a>
     </div>
     <div class="sign_in col-6 text-right m-auto">
-        <a href="#">
+        <a href="${pageContext.request.contextPath}/jsp/sign_in.jsp">
             sign in
         </a>
         <a style="color: #6f3d2d">&#8195|&#8195</a>
-        <a href="#">
+        <a href="${pageContext.request.contextPath}/jsp/sign_up.jsp">
             sign up
         </a>
     </div>

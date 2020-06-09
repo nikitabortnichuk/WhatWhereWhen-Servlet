@@ -1,6 +1,6 @@
 package com.bortni.controller.filter;
 
-import com.bortni.controller.command.Error403Command;
+import com.bortni.controller.command.error.Error403Command;
 import com.bortni.controller.security.Role;
 import com.bortni.controller.security.SecurityUtils;
 import com.bortni.controller.util.UrlPath;
@@ -15,7 +15,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.Reader;
 
 public class SecurityFilter implements Filter {
 

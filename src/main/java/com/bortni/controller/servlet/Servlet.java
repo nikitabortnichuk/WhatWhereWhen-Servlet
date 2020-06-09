@@ -1,5 +1,9 @@
 package com.bortni.controller.servlet;
 
+import com.bortni.controller.command.ProfileCommand;
+import com.bortni.controller.command.admin.SignInAdminCommand;
+import com.bortni.controller.command.authorization.SignInCommand;
+import com.bortni.controller.command.authorization.SignUpCommand;
 import com.bortni.controller.command.game.CreateGameCommand;
 import com.bortni.controller.command.admin.AdminDeleteQuestionCommand;
 import com.bortni.controller.command.admin.AdminSaveQuestionCommand;
@@ -10,8 +14,10 @@ import com.bortni.controller.command.HomeCommand;
 import com.bortni.controller.command.game.FindGameCommand;
 import com.bortni.controller.command.game.GameCommand;
 import com.bortni.controller.util.UrlPath;
+import com.bortni.service.AdminService;
 import com.bortni.service.GameService;
 import com.bortni.service.QuestionService;
+import com.bortni.service.UserService;
 import com.bortni.service.VariantService;
 
 import javax.servlet.ServletException;
@@ -33,6 +39,8 @@ public class Servlet extends HttpServlet {
         QuestionService questionService = new QuestionService();
         VariantService variantService = new VariantService();
         GameService gameService = new GameService();
+        UserService userService = new UserService();
+        AdminService adminService = new AdminService();
 
         commands.put("/", new HomeCommand());
         commands.put(UrlPath.HOME, new HomeCommand());
@@ -44,6 +52,10 @@ public class Servlet extends HttpServlet {
         commands.put(UrlPath.ADMIN_UPDATE_QUESTION, new AdminSaveQuestionCommand(questionService, variantService));
         commands.put(UrlPath.CREATE_GAME, new CreateGameCommand(gameService, questionService));
         commands.put(UrlPath.FIND_GAME, new FindGameCommand(gameService));
+        commands.put(UrlPath.SIGN_IN, new SignInCommand(userService));
+        commands.put(UrlPath.SIGN_UP, new SignUpCommand(userService));
+        commands.put(UrlPath.USER_PROFILE, new ProfileCommand(gameService));
+        commands.put(UrlPath.ADMIN_SIGN_IN, new SignInAdminCommand(adminService));
     }
 
     @Override

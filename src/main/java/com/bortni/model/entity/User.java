@@ -7,15 +7,15 @@ import java.util.Objects;
 public class User {
 
     private int id;
-    private String nickname;
+    private String username;
     private String email;
     private String password;
 
     private List<Game> gameList;
 
-    public User(int id, String nickname, String email, String password, List<Game> gameList) {
+    public User(int id, String username, String email, String password, List<Game> gameList) {
         this.id = id;
-        this.nickname = nickname;
+        this.username = username;
         this.email = email;
         this.password = password;
         this.gameList = gameList;
@@ -32,8 +32,8 @@ public class User {
         return this.id;
     }
 
-    public String getNickname() {
-        return this.nickname;
+    public String getUsername() {
+        return this.username;
     }
 
     public String getEmail() {
@@ -52,8 +52,8 @@ public class User {
         this.id = id;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setEmail(String email) {
@@ -74,7 +74,7 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return id == user.id &&
-                nickname.equals(user.nickname) &&
+                username.equals(user.username) &&
                 email.equals(user.email) &&
                 password.equals(user.password) &&
                 gameList.equals(user.gameList);
@@ -82,16 +82,16 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nickname, email, password, gameList);
+        return Objects.hash(id, username, email, password, gameList);
     }
 
     public String toString() {
-        return "User(id=" + this.getId() + ", nickname=" + this.getNickname() + ", email=" + this.getEmail() + ", password=" + this.getPassword() + ", gameList=" + this.getGameList() + ")";
+        return "User(id=" + this.getId() + ", username=" + this.getUsername() + ", email=" + this.getEmail() + ", password=" + this.getPassword() + ", gameList=" + this.getGameList() + ")";
     }
 
     public static class UserBuilder {
         private int id;
-        private String nickname;
+        private String username;
         private String email;
         private String password;
         private List<Game> gameList;
@@ -104,8 +104,8 @@ public class User {
             return this;
         }
 
-        public UserBuilder nickname(String nickname) {
-            this.nickname = nickname;
+        public UserBuilder username(String username) {
+            this.username = username;
             return this;
         }
 
@@ -125,11 +125,11 @@ public class User {
         }
 
         public User build() {
-            return new User(id, nickname, email, password, gameList);
+            return new User(id, username, email, password, gameList);
         }
 
         public String toString() {
-            return "User.UserBuilder(id=" + this.id + ", nickname=" + this.nickname + ", email=" + this.email + ", password=" + this.password + ", gameList=" + this.gameList + ")";
+            return "User.UserBuilder(id=" + this.id + ", username=" + this.username + ", email=" + this.email + ", password=" + this.password + ", gameList=" + this.gameList + ")";
         }
     }
 }

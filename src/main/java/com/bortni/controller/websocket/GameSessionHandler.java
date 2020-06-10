@@ -1,10 +1,12 @@
 package com.bortni.controller.websocket;
 
 import com.bortni.model.entity.Game;
+import com.bortni.model.entity.User;
 import com.bortni.model.entity.Variant;
 import com.bortni.model.entity.question.Question;
 import com.bortni.service.GameService;
 import com.bortni.service.QuestionService;
+import com.bortni.service.UserService;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -33,6 +35,7 @@ public class GameSessionHandler {
 
     private static QuestionService questionService = new QuestionService();
     private static GameService gameService = new GameService();
+    private static UserService userService = new UserService();
 
     public void addSession(Session session, String gameId) {
         addToSessionMap(session, gameId);
@@ -108,6 +111,7 @@ public class GameSessionHandler {
         } else {
             users.add(username);
         }
+
         JsonObject connectMessage = createMessage("connect", gameId, username);
         sendToAllConnectedSessions(connectMessage);
     }
@@ -275,7 +279,7 @@ public class GameSessionHandler {
                     .build();
             gameEndMessageMap.put(gameId, message);
 
-            processGameEnding(gameId);
+            processGameEnding(gameId, correctAnswersNumber, incorrectAnswersNumber);
 
             sendToAllConnectedSessions(message);
         }
@@ -289,12 +293,23 @@ public class GameSessionHandler {
         return new long[] {correctAnswersNumber, incorrectAnswersNumber};
     }
 
-    public void processGameEnding(String gameId) {
-        System.out.println(gameId);
+    public void processGameEnding(String gameId, long correctAnswersNumber, long incorrectAnswersNumber) {
         Game game = gameMap.get(gameId);
+
         game.setAvailable(false);
+        game.getStatistics().setExpertScore((int)correctAnswersNumber);
+        game.getStatistics().setOpponentScore((int)incorrectAnswersNumber);
         gameService.update(game);
-        System.out.println(answerMap);
+
+        saveUsersToGame(gameId);
+    }
+
+    private void saveUsersToGame(String gameId){
+        userMap.get(gameId).forEach(username -> {
+            Game game = gameService.findByIdent(gameId);
+            User user = userService.findByUsername(username);
+            gameService.saveUserToGame(user, game);
+        });
     }
 
     public void sendToAllConnectedSessions(JsonObject message) {

@@ -29,16 +29,15 @@ public class SignInAdminCommand implements Command {
             response.sendRedirect("/game-www" + UrlPath.ADMIN_SHOW_QUESTIONS);
         }
         else {
-            admin = adminService.getAdministratorByLoginAndPassword(login, password);
 
-            if (admin.equals(new Admin())){
+            try {
+                admin = adminService.getAdministratorByLoginAndPassword(login, password);
+                request.getSession().setAttribute("adminSession", admin);
+                response.sendRedirect("/game-www" + UrlPath.ADMIN_SHOW_QUESTIONS);
+            } catch (RuntimeException e){
                 String message = "Wrong email or password";
                 request.setAttribute("SignInFailedMessage", message);
                 request.getRequestDispatcher(Routes.ADMIN_SIGN_IN).forward(request, response);
-            }
-            else {
-                request.getSession().setAttribute("adminSession", admin);
-                response.sendRedirect("/game-ww" + UrlPath.ADMIN_SHOW_QUESTIONS);
             }
         }
 

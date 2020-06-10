@@ -9,4 +9,6 @@ public interface UserDao extends Dao<User> {
     User findByUsernameAndPassword(String username, String password);
 
     boolean isUsernameExist(String username);
+
+    User findByUsername(String username);
 }

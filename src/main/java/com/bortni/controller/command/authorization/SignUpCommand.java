@@ -21,14 +21,14 @@ public class SignUpCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User user = (User) request.getSession().getAttribute("readerSession");
+        User user = (User) request.getSession().getAttribute("userSession");
 
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
         if(user != null){
-            response.sendRedirect("/library" + UrlPath.USER_PROFILE);
+            response.sendRedirect("/game-www" + UrlPath.USER_PROFILE);
         }
         else {
             if (userService.isUsernameExist(email)) {
@@ -42,7 +42,7 @@ public class SignUpCommand implements Command {
                         .password(password)
                         .build();
                 userService.save(user);
-                request.getRequestDispatcher(Routes.SUCCESSFUL_REGISTRATION).forward(request, response);
+                response.sendRedirect("/game-www" + UrlPath.USER_PROFILE);
             }
         }
     }

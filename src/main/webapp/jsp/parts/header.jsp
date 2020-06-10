@@ -24,12 +24,27 @@
         </a>
     </div>
     <div class="sign_in col-6 text-right m-auto">
-        <a href="${pageContext.request.contextPath}/jsp/sign_in.jsp">
-            sign in
+        <a href="${pageContext.request.contextPath}/game-www/home">
+            home
         </a>
         <a style="color: #6f3d2d">&#8195|&#8195</a>
-        <a href="${pageContext.request.contextPath}/jsp/sign_up.jsp">
-            sign up
-        </a>
+        <c:if test="${sessionScope.userSession == null}">
+            <a href="${pageContext.request.contextPath}/jsp/sign_in.jsp">
+                sign in
+            </a>
+            <a style="color: #6f3d2d">&#8195|&#8195</a>
+            <a href="${pageContext.request.contextPath}/jsp/sign_up.jsp">
+                sign up
+            </a>
+        </c:if>
+        <c:if test="${sessionScope.userSession != null}">
+            <a href="${pageContext.request.contextPath}/game-www/profile">
+                profile
+            </a>
+            <a style="color: #6f3d2d">&#8195|&#8195</a>
+            <a href="${pageContext.request.contextPath}/game-www/logout">
+                logout
+            </a>
+        </c:if>
     </div>
 </div>

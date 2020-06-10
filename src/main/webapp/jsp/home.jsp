@@ -10,9 +10,8 @@
     <jsp:include page="parts/head_tag.jsp"/>
 
     <script type="text/javascript">
-        var url = new URL(window.location.href);
-        var message = url.searchParams.get("errorMessage");
-        if (message != null) {
+        var message = "${requestScope.errorMessage}";
+        if (message !== "") {
             alert(message);
         }
     </script>

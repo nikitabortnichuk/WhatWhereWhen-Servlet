@@ -15,5 +15,6 @@ public class UrlPath {
     public static final String SIGN_IN = "/sign_in";
     public static final String SIGN_UP = "/sign_up";
     public static final String USER_PROFILE = "/profile";
-    public static final String ADMIN_SIGN_IN = "/admin";
+    public static final String ADMIN_SIGN_IN = "/admin_sign_in";
+    public static final String LOGOUT = "/logout";
 }

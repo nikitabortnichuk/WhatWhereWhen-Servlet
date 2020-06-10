@@ -63,11 +63,8 @@ public class GameDaoImpl implements GameDao {
 
             preparedStatement.setInt(1, statistics.getExpertScore());
             preparedStatement.setInt(2, statistics.getOpponentScore());
-            preparedStatement.setInt(3, statistics.getNumberOfUsedHints());
-            preparedStatement.setInt(4, statistics.getAverageTimePerRound());
-            preparedStatement.setInt(5, statistics.getAverageScorePerRound());
-            preparedStatement.setBoolean(6, entity.isAvailable());
-            preparedStatement.setInt(7, entity.getId());
+            preparedStatement.setBoolean(3, entity.isAvailable());
+            preparedStatement.setInt(4, entity.getId());
 
             preparedStatement.executeUpdate();
 
@@ -123,7 +120,9 @@ public class GameDaoImpl implements GameDao {
             if(resultSet.next()){
                 game = gameMapper.getFromResultSet(resultSet);
             }
-            else throw new RuntimeException();
+            else {
+                throw new RuntimeException();
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -134,7 +133,21 @@ public class GameDaoImpl implements GameDao {
     }
 
     @Override
-    public void saveUsersInGame(String identificator, List<User> userList) {
+    public void saveUserToGame(User user, Game game) {
+
+        String sql = GameSqlQuery.CREATE_USER_GAME;
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+
+            preparedStatement.setInt(1, user.getId());
+            preparedStatement.setInt(2, game.getId());
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
 
     }
 

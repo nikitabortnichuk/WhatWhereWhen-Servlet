@@ -5,19 +5,14 @@ import java.util.List;
 import java.util.Set;
 
 public class SecurityUtils {
-    public static boolean isSecurityPage(HttpServletRequest request){
-        Set<Role> roles = SecurityConfig.getAllRoles();
 
-        for (Role role: roles){
-            List<String> urlPatterns = SecurityConfig.getAllUrlPatternsForRole(role);
-            if(urlPatterns != null && urlPatterns.contains(request.getPathInfo())){
-                return true;
-            }
-        }
-        return false;
+    public static boolean isSecurityPageByRole(HttpServletRequest request, Role role) {
+
+        List<String> urlPatterns = SecurityConfig.getAllUrlPatternsForRole(role);
+        return urlPatterns != null && urlPatterns.contains(request.getPathInfo());
     }
 
-    public static boolean hasPermission(HttpServletRequest request, Role role){
+    public static boolean hasPermission(HttpServletRequest request, Role role) {
         return SecurityConfig.getAllUrlPatternsForRole(role).contains(request.getPathInfo());
     }
 }

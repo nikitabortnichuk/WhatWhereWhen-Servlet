@@ -39,6 +39,9 @@
             <div class="connected_users" id="connected_users">
                 <span>Connected Experts:</span>
             </div>
+            <div class="gameId">
+                <p>Game id: ${sessionScope.game.gameIdentification}</p>
+            </div>
             <div class="messages">
                 <textarea id="messageList" class="messageList no-gray" readonly="readonly" rows="15"
                           cols="15"></textarea>
@@ -58,7 +61,7 @@
 </body>
 
 <script type="text/javascript">
-    sessionStorage.setItem("username", "${sessionScope.username}");
+    sessionStorage.setItem("username", "${sessionScope.userSession.username}");
     sessionStorage.setItem("roundTime", "${sessionScope.game.configuration.roundTime}");
 </script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/websocket.js"></script>

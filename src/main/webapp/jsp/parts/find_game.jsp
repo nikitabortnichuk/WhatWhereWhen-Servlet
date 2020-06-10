@@ -11,13 +11,10 @@
 
         <div class="game_labels">
             <label for="game_identification">Game id:</label>
-            <label for="username">Username:</label>
         </div>
         <div class="game_inputs">
             <input type="text" class="form-control game_identification" name="game_identification"
                    id="game_identification" placeholder="Enter game identification">
-            <input type="text" class="form-control username" name="username" id="username"
-                   placeholder="Enter username">
         </div>
     </div>
 

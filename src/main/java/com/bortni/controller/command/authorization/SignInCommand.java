@@ -26,19 +26,17 @@ public class SignInCommand implements Command {
 
         User user = (User) request.getSession().getAttribute("userSession");
 
-        if(user != null) {
+        if (user != null) {
             response.sendRedirect("/game-www/" + UrlPath.USER_PROFILE);
-        }
-        else {
-            user = userService.findByUsernameAndPassword(username, password);
-            if (user.equals(new User())){
+        } else {
+            try {
+                user = userService.findByUsernameAndPassword(username, password);
+                request.getSession().setAttribute("userSession", user);
+                response.sendRedirect("/game-www" + UrlPath.USER_PROFILE);
+            } catch (RuntimeException e) {
                 String message = "Wrong email or password";
                 request.setAttribute("SignInFailedMessage", message);
                 request.getRequestDispatcher(Routes.SIGN_IN).forward(request, response);
-            }
-            else {
-                request.getSession().setAttribute("userSession", user);
-                response.sendRedirect("/game-www" + UrlPath.USER_PROFILE);
             }
         }
 

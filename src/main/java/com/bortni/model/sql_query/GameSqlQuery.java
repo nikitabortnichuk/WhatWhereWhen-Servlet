@@ -13,14 +13,16 @@ public class GameSqlQuery {
             "VALUES (?, ?, ?, ?, ?) ";
 
     public static final String UPDATE = "UPDATE games " +
-            "SET expert_score = ?, opponent_score = ?, number_of_used_hints = ?, " +
-            "average_time_per_round = ?, average_score_per_round = ?, is_available = ? " +
+            "SET expert_score = ?, opponent_score = ?, is_available = ? " +
             "WHERE games.game_id = ? ";
 
     public static final String DELETE = "DELETE FROM games WHERE games.game_id = ? ";
 
     public static final String FIND_BY_USER_ID = "SELECT * FROM users_games " +
-            "JOIN users ON users_games.game_id = users.user_id " +
+            "JOIN users ON users_games.user_id = users.user_id " +
             "JOIN games ON users_games.game_id = games.game_id " +
             "AND users.user_id = ?";
+
+    public static final String CREATE_USER_GAME = "INSERT INTO users_games " +
+            "(user_id, game_id) VALUES (?, ?) ";
 }

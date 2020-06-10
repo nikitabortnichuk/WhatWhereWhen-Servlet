@@ -11,25 +11,25 @@ public class GameDatabaseMapper implements DatabaseMapper<Game> {
     @Override
     public Game getFromResultSet(ResultSet resultSet) throws SQLException {
         return Game.builder()
-                .id(resultSet.getInt(1))
-                .gameIdentification(resultSet.getString(2))
+                .id(resultSet.getInt("games.game_id"))
+                .gameIdentification(resultSet.getString("game_identification"))
                 .configuration(
                         Configuration.builder()
-                                .roundTime(resultSet.getShort(3))
-                                .playersNumber(resultSet.getByte(4))
-                                .roundsNumber(resultSet.getByte(5))
+                                .roundTime(resultSet.getShort("round_time"))
+                                .playersNumber(resultSet.getByte("players_number"))
+                                .roundsNumber(resultSet.getByte("rounds_number"))
                                 .build()
                 )
                 .statistics(
                         Statistics.builder()
-                                .expertScore(resultSet.getShort(6))
-                                .opponentScore(resultSet.getShort(7))
-                                .numberOfUsedHints(resultSet.getShort(8))
-                                .averageTimePerRound(resultSet.getShort(9))
-                                .averageScorePerRound(resultSet.getShort(10))
+                                .expertScore(resultSet.getShort("expert_score"))
+                                .opponentScore(resultSet.getShort("opponent_score"))
+                                .numberOfUsedHints(resultSet.getShort("number_of_used_hints"))
+                                .averageTimePerRound(resultSet.getShort("average_time_per_round"))
+                                .averageScorePerRound(resultSet.getShort("average_score_per_round"))
                                 .build()
                 )
-                .isAvailable(resultSet.getBoolean(11))
+                .isAvailable(resultSet.getBoolean("is_available"))
                 .build();
     }
 }

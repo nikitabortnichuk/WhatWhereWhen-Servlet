@@ -72,6 +72,18 @@ body {
     color: #6f3d2d;
 }
 
+h3 {
+    color: #6f3d2d;
+}
+
+.game_table th {
+    color: #6f3d2d !important;
+}
+
+.game_table td {
+    color: #6f3d2d !important;
+}
+
 #create_game, #find_game {
     display: none;
     position: absolute;
@@ -191,6 +203,7 @@ body {
     padding: 10px;
     width: 100%;
     height: 20px;
+
 }
 
 .connected_user span {
@@ -208,10 +221,20 @@ body {
 
 .messages textarea {
     width: 100%;
-    height: 350px;
+    height: 310px;
     resize: none;
     border: none;
     border-bottom: 1px solid #6f3d2d;
+}
+
+.gameId {
+    border-top: 1px solid #6f3d2d;
+    padding: 10px;
+    height: 40px;
+}
+
+.gameId p {
+    margin: 0;
 }
 
 .btn-simple {
@@ -224,13 +247,14 @@ body {
 }
 
 .messages {
-    height: 390px;
+    height: 340px;
     width: 100%;
 }
 
 .message-input {
     background-color: white;
     border-bottom-right-radius: 10px;
+    height: 40px;
     margin-top: -6px;
 }
 
@@ -263,7 +287,7 @@ body {
     border-radius: 10px;
 }
 
-.question-number, .question-text{
+.question-number, .question-text {
     color: #6f3d2d;
 }
 
@@ -272,7 +296,7 @@ body {
 }
 
 .variantList {
-    width: 60%;
+    width: 80%;
 }
 
 /* FOOTER */

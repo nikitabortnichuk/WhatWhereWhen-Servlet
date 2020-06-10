@@ -20,9 +20,9 @@
         </p>
         <form class="sign_form" action="${pageContext.request.contextPath}/game-www/sign_up" method="post">
             <div class="form-group">
-                <label for="last-name">Username</label>
-                <input type="text" class="form-control" id="last-name"
-                       placeholder="Enter username" name="last_name"
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username"
+                       placeholder="Enter username" name="username"
                        required>
             </div>
             <div class="form-group">
@@ -36,7 +36,7 @@
                        placeholder="Enter password" name="password"
                        required>
             </div>
-            <button type="submit" class="button">Sign Up</button>
+            <button type="submit" class="btn btn-info">Sign Up</button>
         </form>
 
     </div>

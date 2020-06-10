@@ -107,7 +107,6 @@ public class AdminDaoImpl implements AdminDao {
             //log
             throw new RuntimeException();
         }
-
         return admin;
     }
 

@@ -13,7 +13,6 @@
             <label for="players_number">Players number:</label>
             <label for="rounds_number">Rounds number:</label>
             <label for="round_time">Round time:</label>
-            <label for="username">Username:</label>
         </div>
         <div class="game_inputs">
             <input type="number" class="form-control players_number" name="players_number" id="players_number"
@@ -22,8 +21,6 @@
                    max="20" placeholder="Enter number of rounds">
             <input type="number" class="form-control round_time" name="round_time" id="round_time" min="20"
                    max="120" placeholder="Enter round time">
-            <input type="text" class="form-control username" name="username" id="username"
-                   placeholder="Enter username">
         </div>
         <%--  todo add required --%>
     </div>

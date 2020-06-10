@@ -23,19 +23,18 @@ public class FindGameCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String identificator = request.getParameter("game_identification");
-        String username = request.getParameter("username");
 
         try {
             Game game = gameService.findByIdent(identificator);
             if(!game.isAvailable()){
-                throw new RuntimeException();
+                throw new RuntimeException("Game is not available");
             }
             request.getSession().setAttribute("game", game);
-            request.getSession().setAttribute("username", username);
             response.sendRedirect("/game-www/game/" + game.getGameIdentification());
         }
         catch (RuntimeException e){
-            response.sendError(404);
+            request.setAttribute("errorMessage", "Cannot find game!");
+            request.getRequestDispatcher(Routes.HOME).forward(request, response);
         }
     }
 }

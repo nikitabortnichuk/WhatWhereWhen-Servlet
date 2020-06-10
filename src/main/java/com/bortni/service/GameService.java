@@ -3,6 +3,7 @@ package com.bortni.service;
 import com.bortni.model.dao.DaoFactory;
 import com.bortni.model.dao.GameDao;
 import com.bortni.model.entity.Game;
+import com.bortni.model.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,5 +43,11 @@ public class GameService {
             gameList = gameDao.findByUserId(id);
         }
         return gameList;
+    }
+
+    public void saveUserToGame(User user, Game game) {
+        try(GameDao gameDao = daoFactory.createGameDao()){
+            gameDao.saveUserToGame(user, game);
+        }
     }
 }

@@ -30,7 +30,6 @@ public class SecurityConfig {
         adminUrlPatterns.add(UrlPath.ADMIN_UPDATE_PAGE_QUESTION);
         adminUrlPatterns.add(UrlPath.ADMIN_UPDATE_QUESTION);
         adminUrlPatterns.add(UrlPath.ADMIN_DELETE_QUESTION);
-        adminUrlPatterns.add(UrlPath.ADMIN);
         mapConfig.put(Role.ADMIN, adminUrlPatterns);
     }
 

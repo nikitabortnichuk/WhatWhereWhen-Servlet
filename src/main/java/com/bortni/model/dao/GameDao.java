@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface GameDao extends Dao<Game> {
     Game findByIdentificator(String identificator);
-    void saveUsersInGame(String identificator, List<User> userList);
+    void saveUserToGame(User user, Game game);
 
     List<Game> findByUserId(int id);
 }

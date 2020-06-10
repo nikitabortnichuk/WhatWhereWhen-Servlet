@@ -4,6 +4,8 @@ import com.bortni.model.dao.DaoFactory;
 import com.bortni.model.dao.UserDao;
 import com.bortni.model.entity.User;
 
+import java.time.OffsetDateTime;
+
 public class UserService {
 
     private DaoFactory daoFactory = DaoFactory.getInstance();
@@ -27,6 +29,12 @@ public class UserService {
     public void save(User user) {
         try(UserDao userDao = daoFactory.createUserDao()){
             userDao.save(user);
+        }
+    }
+
+    public User findByUsername(String username) {
+        try(UserDao userDao = daoFactory.createUserDao()){
+            return userDao.findByUsername(username);
         }
     }
 }

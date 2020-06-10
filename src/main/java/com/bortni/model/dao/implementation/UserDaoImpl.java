@@ -109,7 +109,7 @@ public class UserDaoImpl implements UserDao {
                 user = new UserDatabaseMapper().getFromResultSet(resultSet);
             }
             else {
-                user = new User();
+                throw new RuntimeException();
             }
 
         } catch (SQLException e) {
@@ -134,6 +134,29 @@ public class UserDaoImpl implements UserDao {
             e.printStackTrace();
             throw new RuntimeException();
         }
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        String sql = UserSqlQuery.FIND_BY_USERNAME;
+
+        User user;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setString(1, username);
+            final ResultSet resultSet = preparedStatement.executeQuery();
+
+            if(resultSet.next()) {
+                user = new UserDatabaseMapper().getFromResultSet(resultSet);
+            }
+            else {
+                throw new SQLException();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+        return user;
     }
 
     @Override

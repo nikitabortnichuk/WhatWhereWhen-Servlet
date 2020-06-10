@@ -6,6 +6,7 @@ import com.bortni.controller.util.Routes;
 import com.bortni.controller.util.UrlPath;
 import com.bortni.model.entity.Configuration;
 import com.bortni.model.entity.Game;
+import com.bortni.model.entity.User;
 import com.bortni.model.entity.question.Question;
 import com.bortni.service.GameService;
 import com.bortni.service.QuestionService;
@@ -33,13 +34,12 @@ public class CreateGameCommand implements Command {
         try {
             Game game = getGameByRequest(request);
             gameService.save(game);
-            String username = request.getParameter("username");
             request.getSession().setAttribute("game", game);
-            request.getSession().setAttribute("username", username);
             response.sendRedirect("/game-www/game/" + game.getGameIdentification());
 
         } catch (RuntimeException e){
-            response.sendRedirect("/?errorMessage=" + e.getMessage());
+            request.setAttribute("errorMessage", "Cannot create game!");
+            request.getRequestDispatcher(Routes.HOME).forward(request, response);
         }
     }
 
@@ -67,7 +67,4 @@ public class CreateGameCommand implements Command {
                 .isAvailable(true)
                 .build();
     }
-
-
-
 }

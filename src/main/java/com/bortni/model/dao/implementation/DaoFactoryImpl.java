@@ -7,12 +7,16 @@ import com.bortni.model.dao.QuestionsDao;
 import com.bortni.model.dao.UserDao;
 import com.bortni.model.dao.VariantDao;
 import com.bortni.model.database.ConnectionPoolHolder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class DaoFactoryImpl extends DaoFactory {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DaoFactoryImpl.class);
+
 
     private DataSource dataSource = ConnectionPoolHolder.getDataSource();;
 
@@ -56,7 +60,7 @@ public class DaoFactoryImpl extends DaoFactory {
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {
-
+            LOGGER.error("Error in creating connection");
             throw new RuntimeException();
         }
     }

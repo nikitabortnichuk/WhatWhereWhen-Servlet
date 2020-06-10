@@ -1,12 +1,16 @@
 package com.bortni.model.database;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
 public class ConnectionPoolHolder {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionPoolHolder.class);
     private static volatile DataSource dataSource;
 
     public static DataSource getDataSource() {
@@ -23,12 +27,13 @@ public class ConnectionPoolHolder {
                         if (inputStream != null) {
                             properties.load(inputStream);
                         } else {
-                            System.out.println("error");
+                            LOGGER.error("Connection error: Class loader input stream is null");
                         }
                         Class.forName(properties.getProperty("db.connection.driver"));
                         dataSource = getBasicDataSource(properties);
 
                     } catch (IOException | ClassNotFoundException e) {
+                        LOGGER.error("Connection error");
                         System.out.println("error");
                     }
                 }

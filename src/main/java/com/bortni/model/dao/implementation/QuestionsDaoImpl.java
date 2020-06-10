@@ -6,6 +6,8 @@ import com.bortni.model.entity.Variant;
 import com.bortni.model.entity.question.Question;
 import com.bortni.model.database_mapper.QuestionDatabaseMapper;
 import com.bortni.model.sql_query.QuestionsSqlQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +16,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class QuestionsDaoImpl implements QuestionsDao {
+    private static final Logger LOGGER = LoggerFactory.getLogger(QuestionsDaoImpl.class);
 
     Specification<Question> specification;
     protected final Connection connection;
@@ -44,7 +47,7 @@ public class QuestionsDaoImpl implements QuestionsDao {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            //log
+            LOGGER.error("Sql error in deleting question: {}", e.getMessage());
             throw new RuntimeException();
         }
 
@@ -67,7 +70,7 @@ public class QuestionsDaoImpl implements QuestionsDao {
         try {
             connection.close();
         } catch (SQLException e) {
-            //log
+            LOGGER.error("Connection was closed");
             throw new RuntimeException();
         }
     }

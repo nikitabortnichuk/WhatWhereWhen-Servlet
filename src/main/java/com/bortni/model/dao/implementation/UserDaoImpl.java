@@ -5,6 +5,8 @@ import com.bortni.model.dao.specification.Specification;
 import com.bortni.model.entity.User;
 import com.bortni.model.database_mapper.UserDatabaseMapper;
 import com.bortni.model.sql_query.UserSqlQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +15,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class UserDaoImpl implements UserDao {
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserDaoImpl.class);
 
     private final Connection connection;
     private Specification<User> specification;
@@ -36,7 +39,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            //log
+            LOGGER.error("Sql error in saving user: {}", e.getMessage());
             throw new RuntimeException();
         }
 
@@ -57,7 +60,8 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            //log
+            LOGGER.error("Sql error in updating user: {}", e.getMessage());
+
             throw new RuntimeException();
         }
 
@@ -73,7 +77,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            //log
+            LOGGER.error("Sql error in deleting user: {}", e.getMessage());
             throw new RuntimeException();
         }
 
@@ -109,11 +113,12 @@ public class UserDaoImpl implements UserDao {
                 user = new UserDatabaseMapper().getFromResultSet(resultSet);
             }
             else {
+                LOGGER.info("No users found");
                 throw new RuntimeException();
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Sql error in finding user: {}", e.getMessage());
             throw new RuntimeException();
         }
 
@@ -131,7 +136,7 @@ public class UserDaoImpl implements UserDao {
             return resultSet.next();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Sql error in checking is user exist: {}", e.getMessage());
             throw new RuntimeException();
         }
     }
@@ -149,11 +154,11 @@ public class UserDaoImpl implements UserDao {
                 user = new UserDatabaseMapper().getFromResultSet(resultSet);
             }
             else {
-                throw new SQLException();
+                throw new RuntimeException();
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Sql error in finding user: {}", e.getMessage());
             throw new RuntimeException();
         }
         return user;
@@ -164,7 +169,7 @@ public class UserDaoImpl implements UserDao {
         try{
             connection.close();
         } catch (SQLException e) {
-            //log
+            LOGGER.error("Connection was closed");
             throw new RuntimeException();
         }
     }

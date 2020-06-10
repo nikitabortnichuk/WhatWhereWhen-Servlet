@@ -23,7 +23,6 @@ public class AdminDeleteQuestionCommand implements Command {
         int id = Integer.parseInt(request.getParameter("question_id"));
 
         questionService.delete(id);
-
         response.sendRedirect("/game-www" + UrlPath.ADMIN_SHOW_QUESTIONS);
     }
 }

@@ -31,11 +31,8 @@ public class SignUpCommand implements Command {
             response.sendRedirect("/game-www" + UrlPath.USER_PROFILE);
         }
         else {
-            if (userService.isUsernameExist(email)) {
-                String message = "Username is already exist!";
-                request.setAttribute("SignUpFailedMessage", message);
-                request.getRequestDispatcher(Routes.SIGN_UP).forward(request, response);
-            } else {
+            try {
+                userService.findByUsername(username);
                 user = User.builder()
                         .username(username)
                         .email(email)
@@ -43,6 +40,10 @@ public class SignUpCommand implements Command {
                         .build();
                 userService.save(user);
                 response.sendRedirect("/game-www" + UrlPath.USER_PROFILE);
+            } catch (RuntimeException e){
+                String message = "Username is already exist!";
+                request.setAttribute("SignUpFailedMessage", message);
+                request.getRequestDispatcher(Routes.SIGN_UP).forward(request, response);
             }
         }
     }

@@ -1,6 +1,8 @@
 package com.bortni.model.dao;
 
 import com.bortni.model.dao.specification.Specification;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface Dao<T> extends AutoCloseable{
+
+    Logger LOGGER = LoggerFactory.getLogger(Dao.class);
 
     //todo exceptionHandler
 
@@ -33,7 +37,7 @@ public interface Dao<T> extends AutoCloseable{
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error in finding all entities");
             throw new RuntimeException();
         }
         return entityList;
@@ -50,11 +54,12 @@ public interface Dao<T> extends AutoCloseable{
                 t = specification.getDatabaseMapper().getFromResultSet(resultSet);
             }
             else {
+                LOGGER.info("No entity found");
                 throw new RuntimeException();
             }
 
         } catch (SQLException e) {
-            //log
+            LOGGER.error("Error in finding all entities");
             throw new RuntimeException();
         }
 

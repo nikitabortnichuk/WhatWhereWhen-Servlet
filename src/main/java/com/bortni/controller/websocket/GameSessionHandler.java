@@ -7,6 +7,8 @@ import com.bortni.model.entity.question.Question;
 import com.bortni.service.GameService;
 import com.bortni.service.QuestionService;
 import com.bortni.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -23,6 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class GameSessionHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameSessionHandler.class);
 
     private final Map<String, Set<Session>> sessionMap = new HashMap<>();
     private final Map<String, Set<String>> userMap = new HashMap<>();
@@ -43,6 +46,7 @@ public class GameSessionHandler {
         Set<String> users = userMap.getOrDefault(gameId, new HashSet<>());
         for (String user : users) {
             JsonObject connectMessage = createMessage("connect", gameId, user);
+            LOGGER.debug("Send connect message of user: {}", user);
             sendToSession(session, connectMessage);
         }
     }
@@ -64,6 +68,17 @@ public class GameSessionHandler {
         if (playersNumber == actualPlayersNumber) {
             addToQuestionMapIfNotNull(gameId);
             sendStartMessage(gameId, game);
+            LOGGER.debug("The game {} started", gameId);
+        }
+    }
+
+    public void addToQuestionMapIfNotNull(String gameId) {
+        List<Question> questions = questionMap.get(gameId);
+        if (questions == null) {
+            Game game = gameService.findByIdent(gameId);
+            int roundsNumber = game.getConfiguration().getRoundsNumber();
+            questions = questionService.getNRandomQuestions(roundsNumber);
+            questionMap.put(gameId, questions);
         }
     }
 
@@ -75,6 +90,17 @@ public class GameSessionHandler {
             gameStartMessageMap.put(gameId, message);
             sendToAllConnectedSessions(message);
         }
+    }
+
+    private JsonObject createStartMessage(String gameId, Game game) {
+        int roundsNumber = game.getConfiguration().getRoundsNumber();
+        int roundTime = game.getConfiguration().getRoundTime();
+        return Json.createObjectBuilder()
+                .add("action", "start")
+                .add("gameId", gameId)
+                .add("roundsNumber", String.valueOf(roundsNumber))
+                .add("roundTime", String.valueOf(roundTime))
+                .build();
     }
 
     public void processDisconnect(Session session, JsonObject jsonMessage) {
@@ -94,11 +120,8 @@ public class GameSessionHandler {
         Set<String> users = userMap.get(gameId);
         users.remove(user);
         JsonObject disconnectMessage = createMessage("disconnect", gameId, user);
+        LOGGER.debug("Send disconnect message to user: {}", user);
         sendToAllConnectedSessions(disconnectMessage);
-    }
-
-    public void removeAllSession(String gameId) {
-        sessionMap.remove(gameId);
     }
 
     public void addUser(JsonObject jsonMessage) {
@@ -111,8 +134,8 @@ public class GameSessionHandler {
         } else {
             users.add(username);
         }
-
         JsonObject connectMessage = createMessage("connect", gameId, username);
+        LOGGER.debug("Send connect message to user: {}", username);
         sendToAllConnectedSessions(connectMessage);
     }
 
@@ -121,27 +144,6 @@ public class GameSessionHandler {
                 .add("action", action)
                 .add("gameId", gameId)
                 .add("username", user)
-                .build();
-    }
-
-    public void addToQuestionMapIfNotNull(String gameId) {
-        List<Question> questions = questionMap.get(gameId);
-        if (questions == null) {
-            Game game = gameService.findByIdent(gameId);
-            int roundsNumber = game.getConfiguration().getRoundsNumber();
-            questions = questionService.getNRandomQuestions(roundsNumber);
-            questionMap.put(gameId, questions);
-        }
-    }
-
-    private JsonObject createStartMessage(String gameId, Game game) {
-        int roundsNumber = game.getConfiguration().getRoundsNumber();
-        int roundTime = game.getConfiguration().getRoundTime();
-        return Json.createObjectBuilder()
-                .add("action", "start")
-                .add("gameId", gameId)
-                .add("roundsNumber", String.valueOf(roundsNumber))
-                .add("roundTime", String.valueOf(roundTime))
                 .build();
     }
 
@@ -175,7 +177,6 @@ public class GameSessionHandler {
         } else {
             sendEndMessage(gameId);
         }
-
     }
 
     private JsonObject createSendQuestion(String gameId, int questionNumber) {
@@ -215,7 +216,6 @@ public class GameSessionHandler {
 
         String correctAnswer = getAnswer(gameId, numberOfQuestion);
         sendAnswerMessage(gameId, actualAnswer, correctAnswer, numberOfQuestion);
-
     }
 
     private String getAnswer(String gameId, int numberOfQuestion) {
@@ -249,10 +249,10 @@ public class GameSessionHandler {
             message = "Answer is not correct";
             isCorrect = false;
         }
-
         List<Boolean> isCorrectAnswers = answerMap.computeIfAbsent(gameId, k -> new ArrayList<>());
         isCorrectAnswers.add(isCorrect);
         sendAnswerIsCorrect(message, isCorrect, gameId, questionNumber);
+        LOGGER.debug("Send answer: {}", actualAnswer);
     }
 
     private void sendAnswerIsCorrect(String message, boolean isCorrect, String gameId, int questionNumber) {
@@ -300,8 +300,8 @@ public class GameSessionHandler {
         game.getStatistics().setExpertScore((int)correctAnswersNumber);
         game.getStatistics().setOpponentScore((int)incorrectAnswersNumber);
         gameService.update(game);
-
         saveUsersToGame(gameId);
+        LOGGER.debug("Game {} has been ended", gameId);
     }
 
     private void saveUsersToGame(String gameId){
@@ -329,6 +329,10 @@ public class GameSessionHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void removeAllSession(String gameId) {
+        sessionMap.remove(gameId);
     }
 
     public Set<Session> getSessions(String gameId) {

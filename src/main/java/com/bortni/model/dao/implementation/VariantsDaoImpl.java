@@ -9,6 +9,8 @@ import com.bortni.model.entity.Variant;
 import com.bortni.model.entity.question.Question;
 import com.bortni.model.sql_query.QuestionsSqlQuery;
 import com.bortni.model.sql_query.VariantSqlQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VariantsDaoImpl implements VariantDao {
+    private static final Logger LOGGER = LoggerFactory.getLogger(VariantsDaoImpl.class);
 
     private Connection connection;
     private VariantDatabaseMapper variantMapper;
@@ -42,7 +45,7 @@ public class VariantsDaoImpl implements VariantDao {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Sql error in saving user: {}", e.getMessage());
             throw new RuntimeException();
         }
 
@@ -62,7 +65,7 @@ public class VariantsDaoImpl implements VariantDao {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Sql error in updating variant: {}", e.getMessage());
             throw new RuntimeException();
         }
     }
@@ -77,7 +80,7 @@ public class VariantsDaoImpl implements VariantDao {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Sql error in deleting variant: {}", e.getMessage());
             throw new RuntimeException();
         }
     }
@@ -111,7 +114,7 @@ public class VariantsDaoImpl implements VariantDao {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Sql error in finding variants: {}", e.getMessage());
             throw new RuntimeException();
         }
 
@@ -123,7 +126,7 @@ public class VariantsDaoImpl implements VariantDao {
         try {
             connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Connection was closed");
             throw new RuntimeException();
         }
     }

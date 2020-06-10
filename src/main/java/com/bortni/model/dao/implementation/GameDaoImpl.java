@@ -8,6 +8,8 @@ import com.bortni.model.entity.Statistics;
 import com.bortni.model.database_mapper.GameDatabaseMapper;
 import com.bortni.model.entity.User;
 import com.bortni.model.sql_query.GameSqlQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameDaoImpl implements GameDao {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdminDaoImpl.class);
 
     private final Connection connection;
     private Specification<Game> specification;
@@ -47,7 +51,7 @@ public class GameDaoImpl implements GameDao {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            //log
+            LOGGER.error("Sql error in saving game: {}", e.getMessage());
             throw new RuntimeException();
         }
         return entity;
@@ -69,7 +73,7 @@ public class GameDaoImpl implements GameDao {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Sql error in updating game: {}", e.getMessage());
             throw new RuntimeException();
         }
     }
@@ -84,7 +88,7 @@ public class GameDaoImpl implements GameDao {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            //log
+            LOGGER.error("Sql error in deleting game: {}", e.getMessage());
             throw new RuntimeException();
         }
 
@@ -121,11 +125,12 @@ public class GameDaoImpl implements GameDao {
                 game = gameMapper.getFromResultSet(resultSet);
             }
             else {
+                LOGGER.info("No games found");
                 throw new RuntimeException();
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Sql error in finding game by identificator: {}", e.getMessage());
             throw new RuntimeException();
         }
 
@@ -145,7 +150,7 @@ public class GameDaoImpl implements GameDao {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Sql error in saving user to game: {}", e.getMessage());
             throw new RuntimeException();
         }
 
@@ -166,7 +171,7 @@ public class GameDaoImpl implements GameDao {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Sql error in saving user to game: {}", e.getMessage());
             throw new RuntimeException();
         }
         return gameList;
@@ -178,7 +183,7 @@ public class GameDaoImpl implements GameDao {
         try{
             connection.close();
         } catch (SQLException e) {
-            //log
+            LOGGER.error("Connection was closed");
             throw new RuntimeException();
         }
     }

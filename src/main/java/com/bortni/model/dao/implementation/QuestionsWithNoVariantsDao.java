@@ -2,6 +2,8 @@ package com.bortni.model.dao.implementation;
 
 import com.bortni.model.entity.question.Question;
 import com.bortni.model.sql_query.QuestionsSqlQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class QuestionsWithNoVariantsDao extends QuestionsDaoImpl {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(QuestionsWithNoVariantsDao.class);
 
     public QuestionsWithNoVariantsDao(Connection connection) {
         super(connection);
@@ -33,7 +37,7 @@ public class QuestionsWithNoVariantsDao extends QuestionsDaoImpl {
             }
 
         } catch (SQLException e) {
-            //log
+            LOGGER.error("Sql error in saving question without variants: {}", e.getMessage());
             throw new RuntimeException();
         }
         return question;
@@ -52,7 +56,7 @@ public class QuestionsWithNoVariantsDao extends QuestionsDaoImpl {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            //log
+            LOGGER.error("Sql error in updating question without variants: {}", e.getMessage());
             throw new RuntimeException();
         }
     }

@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 public class QuestionService {
 
-    final Logger logger = LoggerFactory.getLogger(QuestionService.class); //todo configure logger
+    private static final Logger LOGGER = LoggerFactory.getLogger(QuestionService.class);
 
     private DaoFactory daoFactory = DaoFactory.getInstance();
 
@@ -39,7 +39,7 @@ public class QuestionService {
             List<Question> questionList = questionsDao.findAll();
             questionList.forEach(question ->
                     entityMapper.setVariantsAndAnswerToOneQuestionWithVariants(variantDao, question));
-
+            LOGGER.info("Getting all questions");
             return questionList;
         }
     }
@@ -50,7 +50,7 @@ public class QuestionService {
 
             Question question = questionsDao.findById(id);
             entityMapper.setVariantsAndAnswerToOneQuestionWithVariants(variantDao, question);
-
+            LOGGER.info("Getting question by id");
             return question;
         }
     }
@@ -60,8 +60,10 @@ public class QuestionService {
         QuestionType questionType = question.getQuestionType();
 
         try (QuestionsDao questionsDao = getQuestionsDao(questionType)) {
-            return questionsDao.save(question);
+            question = questionsDao.save(question);
         }
+        LOGGER.info("Saving question");
+        return question;
     }
 
     public void update(Question question) {
@@ -70,6 +72,7 @@ public class QuestionService {
         try (QuestionsDao questionsDao = getQuestionsDao(questionType)) {
             questionsDao.update(question);
         }
+        LOGGER.info("Updating question");
     }
 
     public void delete(int id) {
@@ -90,45 +93,8 @@ public class QuestionService {
                 .distinct()
                 .limit(questionsNumber)
                 .forEach(n -> randomQuestions.add(allQuestions.get(n)));
-
+        LOGGER.debug("Getting {} random questions", questionsNumber);
         return randomQuestions;
-    }
-
-    public JsonArrayBuilder getJsonOfQuestionList(List<Question> questions) {
-
-        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-        questions.forEach(question -> jsonArrayBuilder
-                .add(Json.createObjectBuilder()
-                        .add("id", question.getId())
-                        .add("text", question.getQuestionText())
-                        .add("answer", question.getAnswer())
-                        .add("variantList", getJsonOfVariantListOrNull(question.getVariantList()))
-                        .add("questionType", question.getQuestionType().toString())
-                )
-        );
-
-        return jsonArrayBuilder;
-    }
-
-    private JsonArrayBuilder getJsonOfVariantListOrNull(List<Variant> variants) {
-        if(variants == null){
-            return Json.createArrayBuilder();
-        }
-        else {
-            return getJsonOfVariantList(variants);
-        }
-    }
-
-    private JsonArrayBuilder getJsonOfVariantList(List<Variant> variants) {
-        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-        variants.forEach(variant -> jsonArrayBuilder
-                .add(Json.createObjectBuilder()
-                        .add("id", variant.getId())
-                        .add("text", variant.getText())
-                        .add("isCorrect", variant.isCorrect())
-                )
-        );
-        return jsonArrayBuilder;
     }
 
     private QuestionsDao getQuestionsDao(QuestionType type) {
@@ -143,7 +109,7 @@ public class QuestionService {
             default:
                 questionsDao = daoFactory.createQuestionsDao();
         }
-
+        LOGGER.debug("Getting questionDao type: {}", questionsDao.getClass());
         return questionsDao;
     }
 

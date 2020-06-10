@@ -46,8 +46,6 @@ public class AdminSaveQuestionCommand implements Command {
 
         String questionIdString = request.getParameter("question_id");
 
-        System.out.println(questionIdString + " -string");
-
         if (questionIdString.equals("")) {
             saveQuestion(request, question);
         } else {

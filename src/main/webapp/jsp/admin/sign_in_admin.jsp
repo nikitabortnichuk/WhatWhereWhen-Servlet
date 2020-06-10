@@ -16,7 +16,7 @@
         <h3 class="mb-3">ADMINISTRATOR</h3>
         <form class="sign_form" action="${pageContext.request.contextPath}/game-www/admin" method="post">
             <div class="form-group">
-                <label for="login">Email:</label>
+                <label for="login">Login:</label>
                 <input type="text" class="form-control" id="login" placeholder="Enter login" name="login" required>
             </div>
             <div class="form-group">

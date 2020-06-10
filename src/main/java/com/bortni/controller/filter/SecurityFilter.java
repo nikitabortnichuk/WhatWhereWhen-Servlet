@@ -3,6 +3,7 @@ package com.bortni.controller.filter;
 import com.bortni.controller.command.error.Error403Command;
 import com.bortni.controller.security.Role;
 import com.bortni.controller.security.SecurityUtils;
+import com.bortni.controller.util.Routes;
 import com.bortni.controller.util.UrlPath;
 import com.bortni.model.entity.Admin;
 import com.bortni.model.entity.User;
@@ -28,25 +29,28 @@ public class SecurityFilter implements Filter {
         User signedInUser = (User) request.getSession().getAttribute("userSession");
         Admin admin = (Admin) request.getSession().getAttribute("adminSession");
 
-        if(UrlPath.SIGN_IN.equals(path) && signedInUser != null){
+        if (UrlPath.SIGN_IN.equals(path) && signedInUser != null) {
             response.sendRedirect("/library" + UrlPath.USER_PROFILE);
             return;
         }
-        if (UrlPath.ADMIN.equals(path) && admin != null){
-            response.sendRedirect("/library" + UrlPath.ADMIN_SHOW_QUESTIONS);
-            return;
+
+        if (UrlPath.ADMIN.equals(path)) {
+            if (admin != null) {
+                response.sendRedirect("/library" + UrlPath.ADMIN_SHOW_QUESTIONS);
+                return;
+            } else {
+                request.getRequestDispatcher(Routes.ADMIN_SIGN_IN);
+            }
         }
 
-        if(SecurityUtils.isSecurityPage(request)){
-            if((signedInUser != null && SecurityUtils.hasPermission(request, Role.USER)) ||
-                    (admin != null && SecurityUtils.hasPermission(request, Role.ADMIN))){
+        if (SecurityUtils.isSecurityPage(request)) {
+            if ((signedInUser != null && SecurityUtils.hasPermission(request, Role.USER)) ||
+                    (admin != null && SecurityUtils.hasPermission(request, Role.ADMIN))) {
                 filterChain.doFilter(request, response);
-            }
-            else {
+            } else {
                 new Error403Command().execute(request, response);
             }
-        }
-        else {
+        } else {
             filterChain.doFilter(request, response);
         }
 

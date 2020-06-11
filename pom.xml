@@ -11,7 +11,6 @@
 
   <name>WhatWhereWhen</name>
 
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>13</maven.compiler.source>
@@ -38,6 +37,12 @@
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-params</artifactId>
       <version>${junit5.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>3.3.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -90,14 +95,12 @@
       <version>1.1</version>
       <scope>provided</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/javax.json/javax.json-api -->
     <dependency>
       <groupId>javax.json</groupId>
       <artifactId>javax.json-api</artifactId>
       <version>1.1.4</version>
       <scope>provided</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.glassfish/javax.json -->
     <dependency>
       <groupId>org.glassfish</groupId>
       <artifactId>javax.json</artifactId>

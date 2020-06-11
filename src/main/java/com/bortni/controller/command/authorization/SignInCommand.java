@@ -4,6 +4,8 @@ import com.bortni.controller.command.Command;
 import com.bortni.controller.util.Routes;
 import com.bortni.controller.util.UrlPath;
 import com.bortni.model.entity.User;
+import com.bortni.model.exception.EntityNotFoundException;
+import com.bortni.model.exception.MySqlException;
 import com.bortni.service.UserService;
 
 import javax.servlet.ServletException;
@@ -33,9 +35,12 @@ public class SignInCommand implements Command {
                 user = userService.findByUsernameAndPassword(username, password);
                 request.getSession().setAttribute("userSession", user);
                 response.sendRedirect("/game-www" + UrlPath.USER_PROFILE);
-            } catch (RuntimeException e) {
+            } catch (EntityNotFoundException e) {
                 String message = "Wrong email or password";
                 request.setAttribute("SignInFailedMessage", message);
+                request.getRequestDispatcher(Routes.SIGN_IN).forward(request, response);
+            } catch (MySqlException e){
+                request.setAttribute("SignInFailedMessage", "Cannot sign in");
                 request.getRequestDispatcher(Routes.SIGN_IN).forward(request, response);
             }
         }

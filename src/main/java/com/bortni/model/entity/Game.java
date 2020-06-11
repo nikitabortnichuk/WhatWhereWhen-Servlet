@@ -3,6 +3,7 @@ package com.bortni.model.entity;
 import com.bortni.model.entity.question.Question;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Game {
 
@@ -109,6 +110,26 @@ public class Game {
                 ", questionList=" + questionList +
                 ", isAvailable=" + isAvailable +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Game)) return false;
+        Game game = (Game) o;
+        return id == game.id &&
+                isAvailable == game.isAvailable &&
+                Objects.equals(gameIdentification, game.gameIdentification) &&
+                Objects.equals(password, game.password) &&
+                Objects.equals(userList, game.userList) &&
+                Objects.equals(statistics, game.statistics) &&
+                Objects.equals(configuration, game.configuration) &&
+                Objects.equals(questionList, game.questionList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, gameIdentification, password, userList, statistics, configuration, questionList, isAvailable);
     }
 
     public static class GameBuilder {

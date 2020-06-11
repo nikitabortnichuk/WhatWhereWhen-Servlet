@@ -29,7 +29,6 @@ public class SignInAdminCommand implements Command {
             response.sendRedirect("/game-www" + UrlPath.ADMIN_SHOW_QUESTIONS);
         }
         else {
-
             try {
                 admin = adminService.getAdministratorByLoginAndPassword(login, password);
                 request.getSession().setAttribute("adminSession", admin);

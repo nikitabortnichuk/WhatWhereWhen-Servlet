@@ -1,6 +1,8 @@
 package com.bortni.model.dao;
 
 import com.bortni.model.dao.specification.Specification;
+import com.bortni.model.exception.EntityNotFoundException;
+import com.bortni.model.exception.MySqlException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,8 +39,8 @@ public interface Dao<T> extends AutoCloseable{
             }
 
         } catch (SQLException e) {
-            LOGGER.error("Error in finding all entities");
-            throw new RuntimeException();
+            LOGGER.error("Sql error in finding all entities");
+            throw new MySqlException("Sql error in finding all entities", e);
         }
         return entityList;
     }
@@ -55,12 +57,12 @@ public interface Dao<T> extends AutoCloseable{
             }
             else {
                 LOGGER.info("No entity found");
-                throw new RuntimeException();
+                throw new EntityNotFoundException("entitie");
             }
 
         } catch (SQLException e) {
-            LOGGER.error("Error in finding all entities");
-            throw new RuntimeException();
+            LOGGER.error("Sql error in finding entity by id");
+            throw new MySqlException("Sql error in finding entity by id", e);
         }
 
         return t;

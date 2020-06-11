@@ -11,6 +11,13 @@ public class UserService {
 
     private DaoFactory daoFactory = DaoFactory.getInstance();
 
+    public void save(User user) {
+        try(UserDao userDao = daoFactory.createUserDao()){
+            userDao.save(user);
+        }
+        LOGGER.info("Saving user");
+    }
+
     public User findByUsernameAndPassword(String username, String password){
         User user;
         try (UserDao userDao = daoFactory.createUserDao()){
@@ -18,13 +25,6 @@ public class UserService {
         }
         LOGGER.info("Finding user by username and password");
         return user;
-    }
-
-    public void save(User user) {
-        try(UserDao userDao = daoFactory.createUserDao()){
-            userDao.save(user);
-        }
-        LOGGER.info("Saving user");
     }
 
     public User findByUsername(String username) {

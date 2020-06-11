@@ -4,6 +4,8 @@ import com.bortni.model.dao.UserDao;
 import com.bortni.model.dao.specification.Specification;
 import com.bortni.model.entity.User;
 import com.bortni.model.database_mapper.UserDatabaseMapper;
+import com.bortni.model.exception.EntityNotFoundException;
+import com.bortni.model.exception.MySqlException;
 import com.bortni.model.sql_query.UserSqlQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +42,7 @@ public class UserDaoImpl implements UserDao {
 
         } catch (SQLException e) {
             LOGGER.error("Sql error in saving user: {}", e.getMessage());
-            throw new RuntimeException();
+            throw new MySqlException("Sql error in saving user", e);
         }
 
         return entity;
@@ -61,8 +63,7 @@ public class UserDaoImpl implements UserDao {
 
         } catch (SQLException e) {
             LOGGER.error("Sql error in updating user: {}", e.getMessage());
-
-            throw new RuntimeException();
+            throw new MySqlException("Sql error in updating user", e);
         }
 
     }
@@ -78,7 +79,7 @@ public class UserDaoImpl implements UserDao {
 
         } catch (SQLException e) {
             LOGGER.error("Sql error in deleting user: {}", e.getMessage());
-            throw new RuntimeException();
+            throw new MySqlException("Sql error in deleting user", e);
         }
 
     }
@@ -114,12 +115,12 @@ public class UserDaoImpl implements UserDao {
             }
             else {
                 LOGGER.info("No users found");
-                throw new RuntimeException();
+                throw new EntityNotFoundException("user");
             }
 
         } catch (SQLException e) {
             LOGGER.error("Sql error in finding user: {}", e.getMessage());
-            throw new RuntimeException();
+            throw new MySqlException("Sql error in finding user", e);
         }
 
         return user;
@@ -137,7 +138,8 @@ public class UserDaoImpl implements UserDao {
 
         } catch (SQLException e) {
             LOGGER.error("Sql error in checking is user exist: {}", e.getMessage());
-            throw new RuntimeException();
+            throw new MySqlException("Sql error in checking is user exist", e);
+
         }
     }
 
@@ -154,12 +156,13 @@ public class UserDaoImpl implements UserDao {
                 user = new UserDatabaseMapper().getFromResultSet(resultSet);
             }
             else {
-                throw new RuntimeException();
+                LOGGER.info("No users found");
+                throw new EntityNotFoundException("user");
             }
 
         } catch (SQLException e) {
             LOGGER.error("Sql error in finding user: {}", e.getMessage());
-            throw new RuntimeException();
+            throw new MySqlException("Sql error in finding user", e);
         }
         return user;
     }
@@ -169,8 +172,8 @@ public class UserDaoImpl implements UserDao {
         try{
             connection.close();
         } catch (SQLException e) {
-            LOGGER.error("Connection was closed");
-            throw new RuntimeException();
+            LOGGER.error("Error in closing connection");
+            throw new MySqlException("Error in closing connection", e);
         }
     }
 }

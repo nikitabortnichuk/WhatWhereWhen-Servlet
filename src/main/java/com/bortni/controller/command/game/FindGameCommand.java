@@ -4,6 +4,8 @@ import com.bortni.controller.command.Command;
 import com.bortni.controller.util.Routes;
 import com.bortni.controller.util.UrlPath;
 import com.bortni.model.entity.Game;
+import com.bortni.model.exception.EntityNotFoundException;
+import com.bortni.model.exception.MySqlException;
 import com.bortni.service.GameService;
 
 import javax.servlet.ServletException;
@@ -32,7 +34,7 @@ public class FindGameCommand implements Command {
             request.getSession().setAttribute("game", game);
             response.sendRedirect("/game-www/game/" + game.getGameIdentification());
         }
-        catch (RuntimeException e){
+        catch (EntityNotFoundException | MySqlException e){
             request.setAttribute("errorMessage", "Cannot find game!");
             request.getRequestDispatcher(Routes.HOME).forward(request, response);
         }

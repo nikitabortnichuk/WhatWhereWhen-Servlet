@@ -77,7 +77,7 @@ public class User {
                 username.equals(user.username) &&
                 email.equals(user.email) &&
                 password.equals(user.password) &&
-                gameList.equals(user.gameList);
+                gameList == user.gameList;
     }
 
     @Override

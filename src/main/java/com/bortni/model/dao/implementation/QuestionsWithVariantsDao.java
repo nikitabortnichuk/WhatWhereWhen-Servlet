@@ -1,6 +1,7 @@
 package com.bortni.model.dao.implementation;
 
 import com.bortni.model.entity.question.Question;
+import com.bortni.model.exception.MySqlException;
 import com.bortni.model.sql_query.QuestionsSqlQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +38,7 @@ public class QuestionsWithVariantsDao extends QuestionsDaoImpl {
 
         } catch (SQLException e) {
             LOGGER.error("Sql error in saving question with variants: {}", e.getMessage());
-            throw new RuntimeException();
+            throw new MySqlException("Sql error in saving question with variants", e);
         }
         return entity;
     }
@@ -56,7 +57,7 @@ public class QuestionsWithVariantsDao extends QuestionsDaoImpl {
 
         } catch (SQLException e) {
             LOGGER.error("Sql error in updating question with variants: {}", e.getMessage());
-            throw new RuntimeException();
+            throw new MySqlException("Sql error in updating question with variants", e);
         }
     }
 }

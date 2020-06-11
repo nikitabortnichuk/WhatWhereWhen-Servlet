@@ -4,6 +4,8 @@ import com.bortni.model.dao.AdminDao;
 import com.bortni.model.dao.specification.Specification;
 import com.bortni.model.entity.Admin;
 import com.bortni.model.database_mapper.AdminDatabaseMapper;
+import com.bortni.model.exception.EntityNotFoundException;
+import com.bortni.model.exception.MySqlException;
 import com.bortni.model.sql_query.AdminSqlQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +40,7 @@ public class AdminDaoImpl implements AdminDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error("Sql error in saving admin: {}", e.getMessage());
-            throw new RuntimeException();
+            throw new MySqlException("Sql error in saving admin", e);
         }
 
         return entity;
@@ -56,7 +58,7 @@ public class AdminDaoImpl implements AdminDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error("Sql error in updating admin: {}", e.getMessage());
-            throw new RuntimeException();
+            throw new MySqlException("Sql error in updating admin", e);
         }
     }
 
@@ -70,7 +72,7 @@ public class AdminDaoImpl implements AdminDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error("Sql error in deleting admin: {}", e.getMessage());
-            throw new RuntimeException();
+            throw new MySqlException("Sql error in deleting admin", e);
         }
 
     }
@@ -105,11 +107,11 @@ public class AdminDaoImpl implements AdminDao {
             }
             else {
                 LOGGER.info("No admin found");
-                throw new RuntimeException();
+                throw new EntityNotFoundException("admin");
             }
         } catch (SQLException e) {
             LOGGER.error("Sql error in finding admin by login and password: {}", e.getMessage());
-            throw new RuntimeException();
+            throw new MySqlException("Sql error in finding admin by login and password", e);
         }
         return admin;
     }
@@ -119,8 +121,8 @@ public class AdminDaoImpl implements AdminDao {
         try{
             connection.close();
         } catch (SQLException e) {
-            LOGGER.error("Connection was closed");
-            throw new RuntimeException();
+            LOGGER.error("Error in closing connection");
+            throw new MySqlException("Error in closing connection", e);
         }
     }
 }

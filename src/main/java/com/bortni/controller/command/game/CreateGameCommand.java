@@ -8,6 +8,7 @@ import com.bortni.model.entity.Configuration;
 import com.bortni.model.entity.Game;
 import com.bortni.model.entity.User;
 import com.bortni.model.entity.question.Question;
+import com.bortni.model.exception.MySqlException;
 import com.bortni.service.GameService;
 import com.bortni.service.QuestionService;
 
@@ -37,7 +38,7 @@ public class CreateGameCommand implements Command {
             request.getSession().setAttribute("game", game);
             response.sendRedirect("/game-www/game/" + game.getGameIdentification());
 
-        } catch (RuntimeException e){
+        } catch (MySqlException e){
             request.setAttribute("errorMessage", "Cannot create game!");
             request.getRequestDispatcher(Routes.HOME).forward(request, response);
         }

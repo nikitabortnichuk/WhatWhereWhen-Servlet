@@ -24,6 +24,10 @@ public class Question {
         this.questionType = questionType;
     }
 
+    public static QuestionBuilder builder(){
+        return new QuestionBuilder();
+    }
+
     public int getId(){
         return id;
     }
@@ -73,7 +77,7 @@ public class Question {
         return id == question.id &&
                 questionText.equals(question.questionText) &&
                 answer.equals(question.answer) &&
-                variantList.equals(question.variantList) &&
+                variantList == question.variantList &&
                 questionType == question.questionType;
     }
 
@@ -92,4 +96,42 @@ public class Question {
                 ", questionType=" + questionType +
                 '}';
     }
+
+    public static class QuestionBuilder {
+        private int id;
+        private String questionText;
+        private String answer;
+        private List<Variant> variantList;
+        private QuestionType questionType;
+
+        public QuestionBuilder id(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public QuestionBuilder questionText(String questionText) {
+            this.questionText = questionText;
+            return this;
+        }
+
+        public QuestionBuilder answer(String answer) {
+            this.answer = answer;
+            return this;
+        }
+
+        public QuestionBuilder variantList(List<Variant> variantList) {
+            this.variantList = variantList;
+            return this;
+        }
+
+        public QuestionBuilder questionType(QuestionType questionType) {
+            this.questionType = questionType;
+            return this;
+        }
+
+        public Question build(){
+            return new Question(id, questionText, answer, variantList, questionType);
+        }
+    }
+
 }

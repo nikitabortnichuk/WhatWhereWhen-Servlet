@@ -5,6 +5,7 @@ import com.bortni.model.dao.specification.Specification;
 import com.bortni.model.entity.Variant;
 import com.bortni.model.entity.question.Question;
 import com.bortni.model.database_mapper.QuestionDatabaseMapper;
+import com.bortni.model.exception.MySqlException;
 import com.bortni.model.sql_query.QuestionsSqlQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +49,7 @@ public class QuestionsDaoImpl implements QuestionsDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error("Sql error in deleting question: {}", e.getMessage());
-            throw new RuntimeException();
+            throw new MySqlException("Sql error in deleting question", e);
         }
 
     }
@@ -70,8 +71,8 @@ public class QuestionsDaoImpl implements QuestionsDao {
         try {
             connection.close();
         } catch (SQLException e) {
-            LOGGER.error("Connection was closed");
-            throw new RuntimeException();
+            LOGGER.error("Error in closing connection");
+            throw new MySqlException("Error in closing connection", e);
         }
     }
 }

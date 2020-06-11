@@ -4,6 +4,7 @@ import com.bortni.controller.command.Command;
 import com.bortni.controller.util.Routes;
 import com.bortni.controller.util.UrlPath;
 import com.bortni.model.entity.User;
+import com.bortni.model.exception.EntityNotFoundException;
 import com.bortni.service.UserService;
 
 import javax.servlet.ServletException;
@@ -33,6 +34,10 @@ public class SignUpCommand implements Command {
         else {
             try {
                 userService.findByUsername(username);
+                String message = "Username is already exist!";
+                request.setAttribute("SignUpFailedMessage", message);
+                request.getRequestDispatcher(Routes.SIGN_UP).forward(request, response);
+            } catch (EntityNotFoundException e){
                 user = User.builder()
                         .username(username)
                         .email(email)
@@ -40,10 +45,6 @@ public class SignUpCommand implements Command {
                         .build();
                 userService.save(user);
                 response.sendRedirect("/game-www" + UrlPath.USER_PROFILE);
-            } catch (RuntimeException e){
-                String message = "Username is already exist!";
-                request.setAttribute("SignUpFailedMessage", message);
-                request.getRequestDispatcher(Routes.SIGN_UP).forward(request, response);
             }
         }
     }

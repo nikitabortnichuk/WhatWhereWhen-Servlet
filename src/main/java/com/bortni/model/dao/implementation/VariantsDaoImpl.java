@@ -7,6 +7,7 @@ import com.bortni.model.database_mapper.VariantDatabaseMapper;
 import com.bortni.model.entity.Admin;
 import com.bortni.model.entity.Variant;
 import com.bortni.model.entity.question.Question;
+import com.bortni.model.exception.MySqlException;
 import com.bortni.model.sql_query.QuestionsSqlQuery;
 import com.bortni.model.sql_query.VariantSqlQuery;
 import org.slf4j.Logger;
@@ -45,8 +46,9 @@ public class VariantsDaoImpl implements VariantDao {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            LOGGER.error("Sql error in saving user: {}", e.getMessage());
-            throw new RuntimeException();
+            LOGGER.error("Sql error in saving variant: {}", e.getMessage());
+            throw new MySqlException("Sql error in saving variant", e);
+
         }
 
         return entity;
@@ -66,7 +68,7 @@ public class VariantsDaoImpl implements VariantDao {
 
         } catch (SQLException e) {
             LOGGER.error("Sql error in updating variant: {}", e.getMessage());
-            throw new RuntimeException();
+            throw new MySqlException("Sql error in updating variant", e);
         }
     }
 
@@ -81,7 +83,7 @@ public class VariantsDaoImpl implements VariantDao {
 
         } catch (SQLException e) {
             LOGGER.error("Sql error in deleting variant: {}", e.getMessage());
-            throw new RuntimeException();
+            throw new MySqlException("Sql error in deleting variant", e);
         }
     }
 
@@ -115,7 +117,7 @@ public class VariantsDaoImpl implements VariantDao {
 
         } catch (SQLException e) {
             LOGGER.error("Sql error in finding variants: {}", e.getMessage());
-            throw new RuntimeException();
+            throw new MySqlException("Sql error in finding variants", e);
         }
 
         return variantList;
@@ -126,8 +128,8 @@ public class VariantsDaoImpl implements VariantDao {
         try {
             connection.close();
         } catch (SQLException e) {
-            LOGGER.error("Connection was closed");
-            throw new RuntimeException();
+            LOGGER.error("Error in closing connection");
+            throw new MySqlException("Error in closing connection", e);
         }
     }
 }

@@ -7,6 +7,7 @@ import com.bortni.model.dao.QuestionsDao;
 import com.bortni.model.dao.UserDao;
 import com.bortni.model.dao.VariantDao;
 import com.bortni.model.database.ConnectionPoolHolder;
+import com.bortni.model.exception.MySqlException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,7 +62,7 @@ public class DaoFactoryImpl extends DaoFactory {
             return dataSource.getConnection();
         } catch (SQLException e) {
             LOGGER.error("Error in creating connection");
-            throw new RuntimeException();
+            throw new MySqlException("Error in creating connection", e);
         }
     }
 

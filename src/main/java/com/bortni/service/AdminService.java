@@ -17,7 +17,7 @@ public class AdminService {
         try (AdminDao administratorDao = daoFactory.createAdminDao()){
             admin = administratorDao.findByLoginAndPassword(login, password);
         }
-        LOGGER.info("Get admin by login and password");
+        LOGGER.debug("Get admin by login and password");
         return admin;
     }
 }

@@ -42,7 +42,7 @@
                     <tbody>
                     <c:forEach items="${requestScope.questions}" var="question" varStatus="i">
                         <tr>
-                            <th>${i.count}</th>
+                            <th>${question.id}</th>
                             <td>${question.questionText}</td>
                             <td>${question.questionType}</td>
                             <td>
@@ -72,6 +72,38 @@
                     </c:forEach>
                     </tbody>
                 </table>
+                <nav class="d-flex" aria-label="Navigation for questions">
+                    <ul class="pagination m-auto">
+                        <c:if test="${requestScope.currentPage != 1}">
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="${pageContext.request.contextPath}/game-www/admin/show_questions?currentPage=${requestScope.currentPage-1}">
+                                    Previous</a>
+                            </li>
+                        </c:if>
+
+                        <c:forEach begin="1" end="${requestScope.nOfPages}" var="i">
+                            <c:choose>
+                                <c:when test="${requestScope.currentPage eq i}">
+                                    <li class="page-item active"><a class="page-link">
+                                            ${i} <span class="sr-only">(current)</span></a>
+                                    </li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="page-item"><a class="page-link"
+                                                             href="${pageContext.request.contextPath}/game-www/admin/show_questions?currentPage=${i}">${i}</a>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+
+                        <c:if test="${requestScope.currentPage lt requestScope.nOfPages}">
+                            <li class="page-item"><a class="page-link"
+                                                     href="${pageContext.request.contextPath}/game-www/admin/show_questions?currentPage=${requestScope.currentPage+1}">Next</a>
+                            </li>
+                        </c:if>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>

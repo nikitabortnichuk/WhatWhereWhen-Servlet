@@ -48,8 +48,41 @@
             </c:forEach>
             </tbody>
         </table>
+        <nav class="d-flex" aria-label="Navigation for games in user profile">
+            <ul class="pagination m-auto">
+                <c:if test="${requestScope.page != 1}">
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="${pageContext.request.contextPath}/game-www/profile?page=${requestScope.page-1}">
+                            Previous</a>
+                    </li>
+                </c:if>
+
+                <c:forEach begin="1" end="${requestScope.nOfPages}" var="i">
+                    <c:choose>
+                        <c:when test="${requestScope.page eq i}">
+                            <li class="page-item active"><a class="page-link">
+                                    ${i} <span class="sr-only">(current)</span></a>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item"><a class="page-link"
+                                                     href="${pageContext.request.contextPath}/game-www/profile?currentPage=${i}">${i}</a>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+
+                <c:if test="${requestScope.page lt requestScope.nOfPages}">
+                    <li class="page-item"><a class="page-link"
+                                             href="${pageContext.request.contextPath}/game-www/profile?currentPage=${requestScope.page+1}">Next</a>
+                    </li>
+                </c:if>
+            </ul>
+        </nav>
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
 
 <div class="my_footer">
     <jsp:include page="parts/footer.jsp"/>

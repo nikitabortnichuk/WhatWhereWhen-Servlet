@@ -21,9 +21,28 @@ public class AdminShowQuestionsCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        final long recordsPerPage = 5L;
+        int currentPage;
+        if (request.getParameter("currentPage") != null) {
+            currentPage = Integer.parseInt(request.getParameter("currentPage"));
+        } else {
+            currentPage = 1;
+        }
 
-        List<Question> questionList = questionService.findAll();
+        long from = (currentPage - 1) * recordsPerPage;
+
+        List<Question> questionList = questionService.findAll(from, recordsPerPage);
         request.setAttribute("questions", questionList);
+
+        long rows = questionService.getQuestionsCount();
+        long nOfPages = rows / recordsPerPage;
+        long rowsOnPage = rows % recordsPerPage;
+        if (rowsOnPage > 0) {
+            nOfPages++;
+        }
+
+        request.setAttribute("nOfPages", nOfPages);
+        request.setAttribute("currentPage", currentPage);
 
         request.getRequestDispatcher(Routes.ADMIN_SHOW_QUESTIONS).forward(request, response);
     }

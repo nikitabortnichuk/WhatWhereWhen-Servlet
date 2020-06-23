@@ -10,6 +10,7 @@ import com.bortni.model.entity.User;
 import com.bortni.model.exception.EntityNotFoundException;
 import com.bortni.model.exception.MySqlException;
 import com.bortni.model.sql_query.GameSqlQuery;
+import com.bortni.model.sql_query.QuestionsSqlQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -180,6 +181,53 @@ public class GameDaoImpl implements GameDao {
         }
         return gameList;
 
+    }
+
+    @Override
+    public List<Game> findByUserId(int id, long from, long to) {
+
+        String sql = GameSqlQuery.FIND_BY_USER_ID_PAGINATED;
+
+        List<Game> gameList = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+
+            preparedStatement.setInt(1, id);
+            preparedStatement.setLong(2, from);
+            preparedStatement.setLong(3, to);
+
+            final ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                gameList.add(new GameDatabaseMapper().getFromResultSet(resultSet));
+            }
+
+        } catch (SQLException e) {
+            LOGGER.error("Sql error in finding games by user id paginated: {}", e.getMessage());
+            throw new MySqlException("Sql error in finding games by user id paginated", e);
+        }
+        return gameList;
+
+    }
+
+    @Override
+    public long getGamesCountByUserId(int userId) {
+        String sql = GameSqlQuery.COUNT_ALL_BY_USER_ID;
+
+        long count = 0;
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, userId);
+
+            final ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            LOGGER.error("Sql error in counting questions");
+            throw new MySqlException("Sql error in counting questions", e);
+        }
+        return count;
     }
 
     @Override

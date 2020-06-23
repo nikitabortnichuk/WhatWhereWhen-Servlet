@@ -7,7 +7,6 @@ import com.bortni.model.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GameService {
@@ -62,5 +61,20 @@ public class GameService {
             gameDao.saveUserToGame(user, game);
         }
         LOGGER.info("Saving user to game");
+    }
+
+    public List<Game> findByUserId(int id, long from, long to) {
+        List<Game> gameList;
+        try(GameDao gameDao = daoFactory.createGameDao()){
+            gameList = gameDao.findByUserId(id, from, to);
+        }
+        LOGGER.info("Getting gameList by user paginated");
+        return gameList;
+    }
+
+    public long getGamesCountByUserId(int userId) {
+        try(GameDao gameDao = daoFactory.createGameDao()) {
+            return gameDao.getGamesCountByUserId(userId);
+        }
     }
 }

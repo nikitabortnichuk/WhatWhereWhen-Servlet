@@ -11,4 +11,9 @@ public interface GameDao extends Dao<Game> {
     void saveUserToGame(User user, Game game);
 
     List<Game> findByUserId(int id);
+
+    List<Game> findByUserId(int id, long from, long to);
+
+    long getGamesCountByUserId(int id);
+
 }

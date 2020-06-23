@@ -22,10 +22,28 @@ public class ProfileCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        final long recordsPerPage = 5L;
+        int currentPage;
+        if (request.getParameter("page") != null) {
+            currentPage = Integer.parseInt(request.getParameter("page"));
+        } else {
+            currentPage = 1;
+        }
+        long from = (currentPage - 1) * recordsPerPage;
         User user = (User) request.getSession().getAttribute("userSession");
 
-        List<Game> gameList = gameService.findByUserId(user.getId());
+        List<Game> gameList = gameService.findByUserId(user.getId(), from, recordsPerPage);
         request.setAttribute("gameList", gameList);
+
+        long rows = gameService.getGamesCountByUserId(user.getId());
+        long nOfPages = rows / recordsPerPage;
+        long rowsOnPage = rows % recordsPerPage;
+        if (rowsOnPage > 0) {
+            nOfPages++;
+        }
+
+        request.setAttribute("nOfPages", nOfPages);
+        request.setAttribute("page", currentPage);
 
         request.getRequestDispatcher(Routes.USER_PROFILE).forward(request, response);
     }

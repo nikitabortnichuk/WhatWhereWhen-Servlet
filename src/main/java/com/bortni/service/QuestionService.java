@@ -3,6 +3,7 @@ package com.bortni.service;
 import com.bortni.model.dao.DaoFactory;
 import com.bortni.model.dao.QuestionsDao;
 import com.bortni.model.dao.VariantDao;
+import com.bortni.model.database_mapper.QuestionDatabaseMapper;
 import com.bortni.model.entity.Variant;
 import com.bortni.model.entity.question.Question;
 import com.bortni.model.entity.question.QuestionType;
@@ -40,6 +41,18 @@ public class QuestionService {
             questionList.forEach(question ->
                     entityMapper.setVariantsAndAnswerToOneQuestionWithVariants(variantDao, question));
             LOGGER.info("Getting all questions");
+            return questionList;
+        }
+    }
+
+    public List<Question> findAll(long from, long to) {
+        try (QuestionsDao questionsDao = daoFactory.createQuestionsDao();
+             VariantDao variantDao = daoFactory.createVariantDao()) {
+
+            List<Question> questionList = questionsDao.findAll(from, to);
+            questionList.forEach(question ->
+                    entityMapper.setVariantsAndAnswerToOneQuestionWithVariants(variantDao, question));
+            LOGGER.info("Getting all questions paginated");
             return questionList;
         }
     }
@@ -113,4 +126,9 @@ public class QuestionService {
         return questionsDao;
     }
 
+    public long getQuestionsCount() {
+        try(QuestionsDao questionsDao = daoFactory.createQuestionsDao()) {
+            return questionsDao.getQuestionsCount();
+        }
+    }
 }

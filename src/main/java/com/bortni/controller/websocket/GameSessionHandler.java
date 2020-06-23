@@ -242,11 +242,16 @@ public class GameSessionHandler {
         String message;
         boolean isCorrect;
 
-        if (correctAnswer.equals(actualAnswer)) {
-            message = "Answer is correct";
+        if (actualAnswer.equalsIgnoreCase(correctAnswer)) {
+            message = "correct";
             isCorrect = true;
-        } else {
-            message = "Answer is not correct";
+        }
+        else if(actualAnswer.equals("")){
+            isCorrect = false;
+            message = "timeIsOver";
+        }
+        else {
+            message = "incorrect";
             isCorrect = false;
         }
         List<Boolean> isCorrectAnswers = answerMap.computeIfAbsent(gameId, k -> new ArrayList<>());

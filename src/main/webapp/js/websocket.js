@@ -145,9 +145,7 @@ function printQuestion(json) {
     questionText.innerHTML = json["questionText"];
 
     printVariants(json, questionDiv);
-
 }
-
 
 function printVariants(json, questionDiv) {
     var variantListDiv = questionDiv.children["variantList"];
@@ -242,7 +240,6 @@ function timer(seconds, tick, json, number, afterFunction) {
 
 function printAnswerInputIfNull(json) {
     var inputDiv = document.getElementById("question-answer");
-
     if (inputDiv === null) {
         printAnswerInput(json);
     }

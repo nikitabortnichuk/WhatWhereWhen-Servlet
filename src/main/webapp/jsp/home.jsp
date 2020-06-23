@@ -3,9 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page isELIgnored="false" %>
 
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="messages"/>
 
 <!DOCTYPE html>
-<html lang="${locale}">
+<html lang="${sessionScope.locale}">
 <head>
     <jsp:include page="parts/head_tag.jsp"/>
 
@@ -39,14 +41,14 @@
 
     <div class="m-auto">
         <div class="slogan">
-            <h1>What? Where? When?</h1>
+            <h1><fmt:message key="home.slogan"/></h1>
         </div>
         <div class="buttons">
             <a class="button_home d-block" href="#find_game">
-                <h2>Find a Game</h2>
+                <h2><fmt:message key="home.find"/></h2>
             </a>
             <a class="button_home d-block" href="#create_game">
-                <h2>Create a Game</h2>
+                <h2><fmt:message key="home.create"/></h2>
             </a>
         </div>
     </div>

@@ -3,11 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page isELIgnored="false" %>
 
-<fmt:setLocale value="${locale}"/>
-<fmt:setBundle basename="${bundle}"/>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="messages"/>
 
 <!DOCTYPE html>
-<html lang="${locale}">
+<html lang="${sessionScope.locale}">
 <head>
     <jsp:include page="parts/head_tag.jsp"/>
 </head>
@@ -18,22 +18,21 @@
 
 <div class="content m-5">
     <div class="container">
-        <h2>PROFILE</h2>
+        <h2><fmt:message key="profile"/> </h2>
 
-        <p>Username: ${sessionScope.userSession.username}</p>
+        <p><fmt:message key="profile.username"/>: ${sessionScope.userSession.username}</p>
         <p>Email: ${sessionScope.userSession.email}</p>
-        <p>Password: ${sessionScope.userSession.password}</p>
 
-        <h3>My games: </h3>
+        <h3><fmt:message key="profile.games"/>: </h3>
         <table class="game_table table">
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Game Identification</th>
-                <th scope="col">Number of rounds</th>
-                <th scope="col">Number of players</th>
-                <th scope="col">Correct answers</th>
-                <th scope="col">Incorrect answers</th>
+                <th scope="col"><fmt:message key="profile.game.gameId"/></th>
+                <th scope="col"><fmt:message key="profile.game.rounds"/></th>
+                <th scope="col"><fmt:message key="profile.game.players"/></th>
+                <th scope="col"><fmt:message key="profile.game.correct"/></th>
+                <th scope="col"><fmt:message key="profile.game.incorrect"/></th>
             </tr>
             </thead>
             <tbody>

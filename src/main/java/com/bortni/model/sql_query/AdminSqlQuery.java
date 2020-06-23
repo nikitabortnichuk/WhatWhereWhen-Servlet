@@ -1,6 +1,6 @@
 package com.bortni.model.sql_query;
 
-public class AdminSqlQuery {
+public class  AdminSqlQuery {
 
     public static final String FIND_ALL = "SELECT * FROM admin ";
 

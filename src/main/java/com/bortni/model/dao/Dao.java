@@ -16,8 +16,6 @@ public interface Dao<T> extends AutoCloseable{
 
     Logger LOGGER = LoggerFactory.getLogger(Dao.class);
 
-    //todo exceptionHandler
-
     T save(T entity);
 
     void update(T entity);

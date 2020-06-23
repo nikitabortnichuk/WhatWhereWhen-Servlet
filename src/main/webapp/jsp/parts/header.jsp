@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="messages"/>
+
 <div class="language_menu d-flex m-auto">
     <div class="language">
         <div class="dropdown_language">
@@ -25,25 +28,25 @@
     </div>
     <div class="sign_in col-6 text-right m-auto">
         <a href="${pageContext.request.contextPath}/game-www/home">
-            home
+            <fmt:message key="home.home"/>
         </a>
         <a style="color: #6f3d2d">&#8195|&#8195</a>
         <c:if test="${sessionScope.userSession == null}">
             <a href="${pageContext.request.contextPath}/jsp/sign_in.jsp">
-                sign in
+                <fmt:message key="home.signIn"/>
             </a>
             <a style="color: #6f3d2d">&#8195|&#8195</a>
             <a href="${pageContext.request.contextPath}/jsp/sign_up.jsp">
-                sign up
+                <fmt:message key="home.signUp"/>
             </a>
         </c:if>
         <c:if test="${sessionScope.userSession != null}">
             <a href="${pageContext.request.contextPath}/game-www/profile">
-                profile
+                <fmt:message key="home.profile"/>
             </a>
             <a style="color: #6f3d2d">&#8195|&#8195</a>
             <a href="${pageContext.request.contextPath}/game-www/logout">
-                logout
+                <fmt:message key="home.logout"/>
             </a>
         </c:if>
     </div>

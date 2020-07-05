@@ -18,8 +18,7 @@ import java.sql.SQLException;
 public class DaoFactoryImpl extends DaoFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger(DaoFactoryImpl.class);
 
-
-    private DataSource dataSource = ConnectionPoolHolder.getDataSource();;
+    private DataSource dataSource = ConnectionPoolHolder.getDataSource();
 
     @Override
     public GameDao createGameDao() {

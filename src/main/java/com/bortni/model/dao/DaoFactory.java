@@ -22,8 +22,6 @@ public abstract class DaoFactory {
 
     public abstract VariantDao createVariantDao();
 
-    private DaoFactory() {}
-
     public static DaoFactory getInstance() {
 
         if (daoFactory == null) {

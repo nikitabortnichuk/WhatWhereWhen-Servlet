@@ -22,11 +22,13 @@ public abstract class DaoFactory {
 
     public abstract VariantDao createVariantDao();
 
-    public static DaoFactory getInstance(){
+    private DaoFactory() {}
 
-        if(daoFactory == null){
-            synchronized (DaoFactory.class){
-                if(daoFactory == null){
+    public static DaoFactory getInstance() {
+
+        if (daoFactory == null) {
+            synchronized (DaoFactory.class) {
+                if (daoFactory == null) {
                     daoFactory = new DaoFactoryImpl();
                 }
             }
